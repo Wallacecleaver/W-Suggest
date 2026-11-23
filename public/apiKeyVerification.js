@@ -19,7 +19,7 @@ async function verifyApiKey(source) {
 
 	// Basic validation
 	if (!apiKey) {
-		status.textContent = "Please enter a key.";
+		status.textContent = "Saisis une clé avant de vérifier.";
 		status.classList.add("error");
 		return;
 	}
@@ -27,7 +27,7 @@ async function verifyApiKey(source) {
 	// Indicate verifying
 	button.classList.add("verifying");
 	button.disabled = true;
-	button.textContent = "Verifying...";
+	button.textContent = "Vérification…";
 
 	try {
 		const res = await fetch("/verifyKey", {
@@ -42,26 +42,26 @@ async function verifyApiKey(source) {
 			// UI feedback
 			button.classList.add("success");
 			status.classList.add("success");
-			status.textContent = "Valid key!";
+			status.textContent = "Clé valide !";
 
 			// Backend valid flags
 			valid.value = "true";
 			input.setAttribute("data-valid", "true");
 		} else {
 			status.classList.add("error");
-			status.textContent = data.error || "Invalid key.";
+			status.textContent = data.error || "Clé invalide.";
 		}
 	} catch (err) {
-		status.textContent = "Server error during validation.";
+		status.textContent = "Erreur serveur pendant la vérification.";
 	} finally {
 		button.disabled = false;
 		button.classList.remove("verifying");
-		button.textContent = "Verify Key";
+		button.textContent = "Vérifier";
 	}
 }
 
 function setupValidationReset() {
-	const sources = ["tmdb", "trakt", "gemini", "tastedive", "watchmode", "rpdb"];
+	const sources = ["tmdb", "trakt", "gemini", "tastedive", "watchmode", "simkl", "rpdb"];
 
 	sources.forEach((source) => {
 		const input = document.getElementById(`${source}ApiKey`);
@@ -80,7 +80,7 @@ function setupValidationReset() {
 				// Reset verify button state
 				button.disabled = false;
 				button.classList.remove("success", "error", "verifying");
-				button.textContent = "Verify Key";
+				button.textContent = "Vérifier";
 			});
 		}
 	});

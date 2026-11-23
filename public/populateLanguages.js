@@ -940,13 +940,27 @@ document.addEventListener("DOMContentLoaded", () => {
 	const select = document.getElementById("language");
 	if (!select) return;
 
-	languages.sort((a, b) => a.english_name.localeCompare(b.english_name));
+	// Noms de langues en français (repli sur le nom anglais si le code n'est pas reconnu)
+	let frNames = null;
+	try {
+		frNames = new Intl.DisplayNames(["fr"], { type: "language" });
+	} catch (e) {}
 
-	languages.forEach((lang) => {
+	const frName = (lang) => {
+		try {
+			const n = frNames && frNames.of(lang.iso_639_1);
+			if (n && n.toLowerCase() !== lang.iso_639_1.toLowerCase()) return n.charAt(0).toUpperCase() + n.slice(1);
+		} catch (e) {}
+		return lang.english_name;
+	};
+
+	const entries = languages.filter((lang) => lang.iso_639_1 !== "en").map((lang) => ({ lang, label: frName(lang) }));
+	entries.sort((a, b) => a.label.localeCompare(b.label, "fr"));
+
+	entries.forEach(({ lang, label }) => {
 		const option = document.createElement("option");
 		option.value = lang.iso_639_1;
-		const displayName = lang.name || lang.english_name;
-		option.textContent = `${displayName} (${lang.english_name})`;
+		option.textContent = lang.name && lang.name !== label ? `${label} (${lang.name})` : label;
 		select.appendChild(option);
 	});
 });

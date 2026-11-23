@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		e.preventDefault(); // stop form submission
 
 		if (!validateApiKeys()) {
-			alert("Please verify all entered API keys before continuing.");
+			alert("Vérifie toutes les clés API saisies avant de continuer.");
 			return;
 		}
 
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				body: JSON.stringify(plainData),
 			});
 
-			if (!response.ok) throw new Error("Failed to save config");
+			if (!response.ok) throw new Error("Échec de l’enregistrement de la configuration");
 
 			const data = await response.json();
 			if (data.manifestUrl) {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		} catch (err) {
 			console.error(err);
-			alert("Error copying manifest URL. Please try again.");
+			alert("Impossible de copier l’URL du manifest. Réessaie.");
 		}
 	});
 });
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelector("form").addEventListener("submit", function (e) {
 	if (!validateApiKeys()) {
 		e.preventDefault();
-		alert("Please verify all entered API keys before continuing.");
+		alert("Vérifie toutes les clés API saisies avant de continuer.");
 	}
 });
 
@@ -79,7 +79,7 @@ function validateApiKeys() {
 
 			const status = document.getElementById(`${source}-verify-status`);
 			if (status) {
-				status.textContent = "Please verify this key before continuing.";
+				status.textContent = "Vérifie cette clé avant de continuer.";
 				status.classList.add("error");
 			}
 		}

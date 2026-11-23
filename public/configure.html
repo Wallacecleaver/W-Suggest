@@ -1,312 +1,319 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>W Suggest Configuration</title>
+		<meta name="color-scheme" content="dark" />
+		<title>Configuration de W Suggest</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
-		<div class="container">
-			<div class="header">
-				<div class="addon-logo">
-					<img src="/logo.png" alt="W Suggest Addon Logo" referrerpolicy="no-referrer" />
-				</div>
-				<h1>W Suggest</h1>
-				<div class="subtitle">RECOMMENDATIONS</div>
-			</div>
-
-			<div class="content">
-				<div class="instructions">
-					<p>
-						Find movie and TV show recommendations right inside Stremio! This addon gathers recommendation for any title from multiple sources and brings them straight to your Stremio library. <br /><br />
-
-						Getting started is easy — just add your own API keys for the recommendation sources you want to use. Need a key? Click the links under each input field to grab yours for free! You only need keys for the sources you want — for example, if you only want TMDB recommendations, you only need a TMDB key.<br /><br />
-
-						For instructions on how to use this addon or if you have any questions, please visit the project's <a href="https://github.com/Wallacecleaver/W-Suggest">GitHub page</a> for the full documentation. Server administrators can also monitor requests and cache in the <a href="/dashboard" style="color: var(--accent-hover); font-weight: 600;">Admin Dashboard</a>.
+		<div class="page">
+			<aside class="intro">
+				<div class="intro-inner">
+					<div class="addon-logo">
+						<img src="/logo.png" alt="Logo de W Suggest" referrerpolicy="no-referrer" />
+					</div>
+					<h1>W Suggest</h1>
+					<p class="tagline">Des recommandations de films et séries, directement dans Stremio.</p>
+					<p class="intro-text">
+						Pour n’importe quel titre, W Suggest rassemble les recommandations de plusieurs sources et les affiche dans ta bibliothèque Stremio.
 					</p>
+					<p class="intro-text">
+						Ajoute ta propre clé API pour chaque source que tu veux utiliser. Une seule suffit : si tu ne veux que TMDB, seule la clé TMDB est nécessaire.
+					</p>
+					<div class="intro-links">
+						<a href="https://github.com/Wallacecleaver/W-Suggest" target="_blank" rel="noopener">Documentation</a>
+						<a href="/dashboard">Tableau de bord admin</a>
+					</div>
 				</div>
+			</aside>
 
-				<form action="/saveConfig" method="POST">
-					<div class="section-header">Recommendation Sources</div>
+			<main class="content">
+				<form id="configForm" action="/saveConfig" method="POST">
+					<section class="panel">
+						<header class="panel-head">
+							<h2 class="section-header">Sources de recommandations</h2>
+							<p>Renseigne au moins une clé, puis clique sur « Vérifier » pour la tester.</p>
+						</header>
 
-					<div class="form-group">
-						<label for="tmdbApiKey">TMDB API Key</label>
-						<p class="key-help">Get your free TMDB key <a href="https://www.themoviedb.org/settings/api" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="tmdbApiKey" name="tmdbApiKey" placeholder="Enter TMDB API Key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('tmdb')">Verify Key</button>
-							<input type="hidden" name="validatedTmdbApiKey" id="validatedTmdbApiKey" />
+						<div class="field">
+							<div class="field-head">
+								<label for="tmdbApiKey">Clé API TMDB</label>
+								<a class="help-link" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="tmdbApiKey" name="tmdbApiKey" placeholder="Colle ta clé TMDB" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('tmdb')">Vérifier</button>
+								<input type="hidden" name="validatedTmdbApiKey" id="validatedTmdbApiKey" />
+							</div>
+							<div id="tmdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 						</div>
-						<div id="tmdb-verify-status" class="verify-status"></div>
-					</div>
+						<div class="row toggle-group conditional-setting hidden" data-conditional="tmdbApiKey" data-show-if="not-empty">
+							<div class="row-text">
+								<span class="toggle-label">Inclure les sagas TMDB dans les recommandations TMDB</span>
+							<p class="row-hint">TMDB regroupe les suites et films liés en « collections », absentes de ses recommandations par défaut. Activé, les films de la saga passent en tête de liste.</p>
+							</div>
+							<label class="toggle">
+								<input type="checkbox" id="includeTmdbCollection" name="includeTmdbCollection" />
+								<span class="toggle-slider"></span>
+							</label>
+						</div>
+						<div class="field">
+							<div class="field-head">
+								<label for="traktApiKey">Clé API Trakt</label>
+								<a class="help-link" href="https://trakt.tv/oauth/applications" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="traktApiKey" name="traktApiKey" placeholder="Colle ta clé Trakt" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('trakt')">Vérifier</button>
+								<input type="hidden" name="validatedTraktApiKey" id="validatedTraktApiKey" />
+							</div>
+							<div id="trakt-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+						</div>
+						<div class="field">
+							<div class="field-head">
+								<label for="geminiApiKey">Clé API Gemini AI</label>
+								<a class="help-link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="geminiApiKey" name="geminiApiKey" placeholder="Colle ta clé Gemini AI" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('gemini')">Vérifier</button>
+								<input type="hidden" name="validatedGeminiApiKey" id="validatedGeminiApiKey" />
+							</div>
+							<div id="gemini-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+						</div>
+						<div class="field">
+							<div class="field-head">
+								<label for="tastediveApiKey">Clé API TasteDive</label>
+								<a class="help-link" href="https://tastedive.com/account/api_access" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="tastediveApiKey" name="tastediveApiKey" placeholder="Colle ta clé TasteDive" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('tastedive')">Vérifier</button>
+								<input type="hidden" name="validatedTastediveApiKey" id="validatedTastediveApiKey" />
+							</div>
+							<div id="tastedive-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+						</div>
+						<div class="field">
+							<div class="field-head">
+								<label for="watchmodeApiKey">Clé API Watchmode</label>
+								<a class="help-link" href="https://api.watchmode.com/requestApiKey/" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="watchmodeApiKey" name="watchmodeApiKey" placeholder="Colle ta clé Watchmode" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('watchmode')">Vérifier</button>
+								<input type="hidden" name="validatedWatchmodeApiKey" id="validatedWatchmodeApiKey" />
+							</div>
+							<div id="watchmode-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+						</div>
+						<div class="field">
+							<div class="field-head">
+								<label for="simklApiKey">Clé API Simkl</label>
+								<a class="help-link" href="https://simkl.com/settings/developer/new/" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="simklApiKey" name="simklApiKey" placeholder="Colle ta clé Simkl" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('simkl')">Vérifier</button>
+								<input type="hidden" name="validatedSimklApiKey" id="validatedSimklApiKey" />
+							</div>
+							<div id="simkl-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+						</div>
+					</section>
 
-					<div class="toggle-group conditional-setting hidden" data-conditional="tmdbApiKey" data-show-if="not-empty">
-						<div class="toggle-info">
-							<span class="toggle-label">Include TMDB Collections in TMDB Recommendation</span>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">TMDB groups related movies, like sequels and series, into 'collections.' These movies are not always included in TMDB's default recommendations. Enable to add collection movies to the start of the TMDB recommendation list.</div>
+					<section class="panel">
+						<header class="panel-head">
+							<h2 class="section-header">Catalogues</h2>
+							<p>Choisis comment les recommandations apparaissent dans Stremio.</p>
+						</header>
+
+						<div class="row toggle-group">
+							<div class="row-text">
+								<span class="toggle-label">Regrouper en un seul catalogue</span>
+							<p class="row-hint">Fusionne les recommandations de toutes les sources dans un catalogue unique, au lieu de les afficher séparément.</p>
+							</div>
+							<label class="toggle">
+								<input type="checkbox" id="combineCatalogs" name="combineCatalogs" />
+								<span class="toggle-slider"></span>
+							</label>
+						</div>
+
+						<div id="catalogOrderSection" class="catalog-order-section conditional-setting hidden" data-conditional="combineCatalogs" data-show-if="false">
+							<div class="label-with-tooltip">
+								<label>Ordre des catalogues</label>
+								<p class="row-hint">Glisse-dépose les sources pour définir l’ordre d’affichage.</p>
+							</div>
+							<div class="catalog-order">
+								<div id="tmdb-catalog" class="catalog-item conditional-setting hidden" data-conditional="tmdbApiKey" data-show-if="not-empty" data-value="tmdb">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">TMDB</span>
+								</div>
+								<div id="trakt-catalog" class="catalog-item conditional-setting hidden" data-conditional="traktApiKey" data-show-if="not-empty" data-value="trakt">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">Trakt</span>
+								</div>
+								<div id="simkl-catalog" class="catalog-item conditional-setting hidden" data-conditional="simklApiKey" data-show-if="not-empty" data-value="simkl">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">Simkl</span>
+								</div>
+								<div id="gemini-catalog" class="catalog-item conditional-setting hidden" data-conditional="geminiApiKey" data-show-if="not-empty" data-value="gemini">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">Gemini AI</span>
+								</div>
+								<div id="tastedive-catalog" class="catalog-item conditional-setting hidden" data-conditional="tastediveApiKey" data-show-if="not-empty" data-value="tastedive">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">TasteDive</span>
+								</div>
+								<div id="watchmode-catalog" class="catalog-item conditional-setting hidden" data-conditional="watchmodeApiKey" data-show-if="not-empty" data-value="watchmode">
+									<span class="catalog-icon" aria-hidden="true">⠿</span>
+									<span class="catalog-name">Watchmode</span>
+								</div>
+								<input type="hidden" name="catalogOrder" id="catalogOrder" value="" />
 							</div>
 						</div>
-						<label class="toggle">
-							<input type="checkbox" id="includeTmdbCollection" name="includeTmdbCollection" />
-							<span class="toggle-slider"></span>
-						</label>
-					</div>
+					</section>
 
-					<div class="form-group">
-						<label for="traktApiKey">Trakt API Key</label>
-						<p class="key-help">Get your free Trakt key <a href="https://trakt.tv/oauth/applications" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="traktApiKey" name="traktApiKey" placeholder="Enter Trakt API Key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('trakt')">Verify Key</button>
-							<input type="hidden" name="validatedTraktApiKey" id="validatedTraktApiKey" />
-						</div>
-						<div id="trakt-verify-status" class="verify-status"></div>
-					</div>
+					<section class="panel">
+						<header class="panel-head">
+							<h2 class="section-header">Options</h2>
+							<p>Tout est facultatif : les valeurs par défaut fonctionnent très bien.</p>
+						</header>
 
-					<div class="form-group">
-						<label for="geminiApiKey">Gemini AI API Key </label>
-						<p class="key-help">Get your free Gemini AI key <a href="https://aistudio.google.com/app/apikey" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="geminiApiKey" name="geminiApiKey" placeholder="Enter your Gemini AI key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('gemini')">Verify Key</button>
-							<input type="hidden" name="validatedGeminiApiKey" id="validatedGeminiApiKey" />
-						</div>
-						<div id="gemini-verify-status" class="verify-status"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="tastediveApiKey">TasteDive API Key</label>
-						<p class="key-help">Get your free TasteDive key <a href="https://tastedive.com/account/api_access" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="tastediveApiKey" name="tastediveApiKey" placeholder="Enter TasteDive API Key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('tastedive')">Verify Key</button>
-							<input type="hidden" name="validatedTastediveApiKey" id="validatedTastediveApiKey" />
-						</div>
-						<div id="tastedive-verify-status" class="verify-status"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="watchmodeApiKey">Watchmode API Key</label>
-						<p class="key-help">Get your free Watchmode key <a href="https://api.watchmode.com/requestApiKey/" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="watchmodeApiKey" name="watchmodeApiKey" placeholder="Enter Watchmode API Key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('watchmode')">Verify Key</button>
-							<input type="hidden" name="validatedWatchmodeApiKey" id="validatedWatchmodeApiKey" />
-						</div>
-						<div id="watchmode-verify-status" class="verify-status"></div>
-					</div>
-
-					<div class="form-group">
-						<label for="simklApiKey">Simkl API Key</label>
-						<p class="key-help">Get your free Simkl key <a href="https://simkl.com/settings/developer/new/" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="simklApiKey" name="simklApiKey" placeholder="Enter Simkl API Key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('simkl')">Verify Key</button>
-							<input type="hidden" name="validatedSimklApiKey" id="validatedSimklApiKey" />
-						</div>
-						<div id="simkl-verify-status" class="verify-status"></div>
-					</div>
-
-					<div class="section-header">Catalog Settings</div>
-
-					<div class="toggle-group">
-						<div class="toggle-info">
-							<span class="toggle-label">Combine Into One Catalog</span>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">Combine recommendations from all sources into a single catalog, instead of showing them separately.</div>
+						<div class="row toggle-group">
+							<div class="row-text">
+								<span class="toggle-label">Autoriser la recherche manuelle par titre</span>
+							<p class="row-hint">Trouve aussi des recommandations à partir du titre d’un film ou d’une série. Moins précis qu’avec l’identifiant exact fourni par Stremio.</p>
 							</div>
+							<label class="toggle">
+								<input type="checkbox" id="enableTitleSearching" name="enableTitleSearching" checked />
+								<span class="toggle-slider"></span>
+							</label>
 						</div>
-						<label class="toggle">
-							<input type="checkbox" id="combineCatalogs" name="combineCatalogs" />
-							<span class="toggle-slider"></span>
-						</label>
-					</div>
 
-					<div id="catalogOrderSection" class="catalog-order-section conditional-setting hidden" data-conditional="combineCatalogs" data-show-if="false">
-						<div class="label-with-tooltip">
-							<label>Catalog Order</label>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">Drag and drop to set the order of how recommendations catalog appears.</div>
+						<div class="row dropdown-group">
+							<div class="row-text">
+								<label class="dropdown-label" for="metadataSource">Source des métadonnées</label>
+								<p class="row-hint">Par défaut, les métadonnées viennent de Cinemeta, le catalogue de Stremio. Choisis TMDB pour les privilégier (clé API TMDB requise).</p>
 							</div>
-						</div>
-						<div class="catalog-order">
-							<div id="tmdb-catalog" class="catalog-item conditional-setting hidden" data-conditional="tmdbApiKey" data-show-if="not-empty" data-value="tmdb">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">TMDB</span>
-							</div>
-							<div id="trakt-catalog" class="catalog-item conditional-setting hidden" data-conditional="traktApiKey" data-show-if="not-empty" data-value="trakt">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">Trakt</span>
-							</div>
-							<div id="simkl-catalog" class="catalog-item conditional-setting hidden" data-conditional="simklApiKey" data-show-if="not-empty" data-value="simkl">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">Simkl</span>
-							</div>
-							<div id="gemini-catalog" class="catalog-item conditional-setting hidden" data-conditional="geminiApiKey" data-show-if="not-empty" data-value="gemini">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">Gemini AI</span>
-							</div>
-							<div id="tastedive-catalog" class="catalog-item conditional-setting hidden" data-conditional="tastediveApiKey" data-show-if="not-empty" data-value="tastedive">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">TasteDive</span>
-							</div>
-							<div id="watchmode-catalog" class="catalog-item conditional-setting hidden" data-conditional="watchmodeApiKey" data-show-if="not-empty" data-value="watchmode">
-								<span class="catalog-icon">≡</span>
-								<span class="catalog-name">Watchmode</span>
-							</div>
-							<input type="hidden" name="catalogOrder" id="catalogOrder" value="" />
-						</div>
-					</div>
-
-					<div class="section-header">Optional Settings</div>
-
-					<div class="toggle-group">
-						<div class="toggle-info">
-							<span class="toggle-label">Enable Manual Title Searching</span>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">Enable to find recommendations based on movie or show titles too. (Note: Title-based searches may be less accurate than using the exact ID from Stremio.)</div>
-							</div>
-						</div>
-						<label class="toggle">
-							<input type="checkbox" id="enableTitleSearching" name="enableTitleSearching" checked />
-							<span class="toggle-slider"></span>
-						</label>
-					</div>
-
-					<div class="dropdown-group">
-						<div class="dropdown-info">
-							<span class="dropdown-label">Metadata Source</span>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">By default, the addon gets metadata from Stremio's Cinemeta. Switch to TMDB to prioritize using TMDB's metadata. (Requires a TMDB API key.)</div>
-							</div>
-						</div>
-						<div class="dropdown-container">
-							<select id="metadataSource" name="metadataSource">
-								<option value="cinemeta">Cinemeta (Default)</option>
-								<option value="tmdb">TMDB (Requires API Key)</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="dropdown-group conditional-setting hidden" data-conditional="metadataSource" data-show-if="tmdb">
-						<div class="dropdown-info">
-							<span class="dropdown-label">Language</span>
-						</div>
-						<div class="dropdown-container">
-							<select id="language" name="language">
-								<option value="en">English (Default)</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="toggle-group conditional-setting hidden" data-conditional="metadataSource,language" data-show-if="tmdb, not-en">
-						<div class="toggle-info">
-							<span class="toggle-label">Keep English Posters?</span>
-						</div>
-						<label class="toggle">
-							<input type="checkbox" id="keepEnglishPoster" name="keepEnglishPoster" />
-							<span class="toggle-slider"></span>
-						</label>
-					</div>
-
-					<div id="streamOrderSection" class="stream-order-section">
-						<div class="label-with-tooltip">
-							<label>Stream Buttons</label>
-							<div class="tooltip-container">
-								<div class="tooltip-icon">?</div>
-								<div class="tooltip-text">This addon provides a set of streams in Stremio that act as buttons for easier access. You can drag to reorder them or disable any you don’t need.</div>
+							<div class="dropdown-container">
+								<select id="metadataSource" name="metadataSource">
+									<option value="cinemeta">Cinemeta (par défaut)</option>
+									<option value="tmdb">TMDB (clé API requise)</option>
+								</select>
 							</div>
 						</div>
 
-						<div class="stream-order">
+						<div class="row dropdown-group conditional-setting hidden" data-conditional="metadataSource" data-show-if="tmdb">
+							<div class="row-text">
+								<label class="dropdown-label" for="language">Langue des métadonnées</label>
+							</div>
+							<div class="dropdown-container">
+								<select id="language" name="language">
+									<option value="en">Anglais (par défaut)</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row toggle-group conditional-setting hidden" data-conditional="metadataSource,language" data-show-if="tmdb, not-en">
+							<div class="row-text">
+								<span class="toggle-label">Garder les affiches en anglais</span>
+							</div>
+							<label class="toggle">
+								<input type="checkbox" id="keepEnglishPoster" name="keepEnglishPoster" />
+								<span class="toggle-slider"></span>
+							</label>
+						</div>
+
+						<div id="streamOrderSection" class="stream-order-section">
+							<div class="label-with-tooltip">
+								<label>Boutons dans la liste des streams</label>
+								<p class="row-hint">L’addon ajoute dans Stremio des entrées qui servent de raccourcis. Glisse-les pour les réordonner ou désactive celles dont tu n’as pas besoin.</p>
+							</div>
+							<div class="stream-order">
 							<div id="stream-detail" class="stream-item" data-value="detail">
-								<span class="catalog-icon">≡</span>
-								<span class="stream-name">Go to detail page</span>
+								<span class="catalog-icon" aria-hidden="true">⠿</span>
+								<span class="stream-name">Aller à la fiche du titre</span>
 								<div class="stream-controls">
 									<label class="mini-toggle">
 										<input type="checkbox" id="streamDetailEnabled" name="streamDetailEnabled" checked />
 										<span class="mini-slider"></span>
 									</label>
-									<span class="control-label">Enabled</span>
+									<span class="control-label">Activé</span>
 								</div>
 							</div>
-
 							<div id="stream-rec" class="stream-item" data-value="recs">
-								<span class="catalog-icon">≡</span>
-								<span class="stream-name">Show recommendations</span>
+								<span class="catalog-icon" aria-hidden="true">⠿</span>
+								<span class="stream-name">Afficher les recommandations</span>
 								<div class="stream-controls">
 									<label class="mini-toggle">
 										<input type="checkbox" id="streamRecEnabled" name="streamRecEnabled" checked />
 										<span class="mini-slider"></span>
 									</label>
-									<span class="control-label">Enabled</span>
+									<span class="control-label">Activé</span>
 								</div>
 							</div>
-
 							<div id="stream-app" class="stream-item" data-value="app">
-								<span class="catalog-icon">≡</span>
-								<span class="stream-name">Search on App</span>
+								<span class="catalog-icon" aria-hidden="true">⠿</span>
+								<span class="stream-name">Rechercher dans l’app</span>
 								<div class="stream-controls">
 									<label class="mini-toggle">
 										<input type="checkbox" id="streamAppEnabled" name="streamAppEnabled" checked />
 										<span class="mini-slider"></span>
 									</label>
-									<span class="control-label">Enabled</span>
+									<span class="control-label">Activé</span>
 								</div>
 							</div>
-
 							<div id="stream-web" class="stream-item" data-value="web">
-								<span class="catalog-icon">≡</span>
-								<span class="stream-name">Search on Web</span>
+								<span class="catalog-icon" aria-hidden="true">⠿</span>
+								<span class="stream-name">Rechercher sur le web</span>
 								<div class="stream-controls">
 									<label class="mini-toggle">
 										<input type="checkbox" id="streamWebEnabled" name="streamWebEnabled" checked />
 										<span class="mini-slider"></span>
 									</label>
-									<span class="control-label">Enabled</span>
+									<span class="control-label">Activé</span>
 								</div>
 							</div>
+							</div>
+							<input type="hidden" name="streamOrder" id="streamOrder" value="" />
 						</div>
 
-						<input type="hidden" name="streamOrder" id="streamOrder" value="" />
-					</div>
-
-					<div class="form-group">
-						<label for="rpdbApiKey">RPDB API Key</label>
-						<p class="key-help">Get your RPDB key <a href="https://ratingposterdb.com/api-key/" target="_blank">here</a></p>
-						<div class="input-with-verify">
-							<input type="text" id="rpdbApiKey" name="rpdbApiKey" placeholder="Enter your RPDB key" />
-							<button type="button" class="verify-btn" onclick="verifyApiKey('rpdb')">Verify Key</button>
-							<input type="hidden" name="validatedRpdbApiKey" id="validatedRpdbApiKey" />
+						<div class="field">
+							<div class="field-head">
+								<label for="rpdbApiKey">Affiches avec notes (RPDB)</label>
+								<a class="help-link" href="https://ratingposterdb.com/api-key/" target="_blank" rel="noopener">Obtenir une clé</a>
+							</div>
+							<div class="input-with-verify">
+								<input type="text" id="rpdbApiKey" name="rpdbApiKey" placeholder="Colle ta clé RPDB" autocomplete="off" spellcheck="false" />
+								<button type="button" class="verify-btn" onclick="verifyApiKey('rpdb')">Vérifier</button>
+								<input type="hidden" name="validatedRpdbApiKey" id="validatedRpdbApiKey" />
+							</div>
+							<div id="rpdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 						</div>
-						<div id="rpdb-verify-status" class="verify-status"></div>
-					</div>
+					</section>
 
 					<input type="hidden" name="forCopy" id="forCopy" value="false" />
 
-					<div class="button-group">
-						<button type="submit" id="installBtn" class="install-button">Install</button>
-						<button type="submit" id="copyManifestBtn" class="copy-manifest-button">Copy Manifest URL</button>
+					<div class="manifest-url-box hidden" id="manifestUrlBox">
+						<label for="manifestUrlDisplay">URL du manifest</label>
+						<input type="text" id="manifestUrlDisplay" readonly placeholder="L’URL de ton manifest apparaîtra ici" />
+						<p class="row-hint">Copiée dans le presse-papiers. Colle-la dans la barre de recherche d’addons de Stremio.</p>
 					</div>
 
-					<div class="manifest-url-box hidden" id="manifestUrlBox">
-						<label for="manifestUrlDisplay">Manifest URL</label>
-						<input type="text" id="manifestUrlDisplay" readonly placeholder="Your manifest URL will appear here" />
+					<div class="button-group">
+						<button type="submit" id="installBtn" class="install-button">Installer dans Stremio</button>
+						<button type="submit" id="copyManifestBtn" class="copy-manifest-button">Copier l’URL du manifest</button>
 					</div>
 				</form>
-			</div>
 
-			<div class="footer">To report issues or make suggestions, please visit the project page <a href="https://github.com/Wallacecleaver/W-Suggest">here</a>.</div>
+				<footer class="footer">Un bug ou une idée ? Rendez-vous sur la <a href="https://github.com/Wallacecleaver/W-Suggest" target="_blank" rel="noopener">page du projet</a>.</footer>
+			</main>
 		</div>
 
-		<!-- Parse existing user config  -->
+		<!-- Lecture de la configuration existante -->
 		<script>
 			try {
 				const params = new URLSearchParams(window.location.search);
