@@ -111,7 +111,7 @@ async function generateManifest(apiKeys, combine, catalog_order) {
 		types: ["movie", "series"],
 		name: "W Suggest",
 		description: "Shows recommendations from various sources",
-		logo: "https://i.imgur.com/DHKJ7dT.png",
+		logo: "https://raw.githubusercontent.com/Wallacecleaver/W-Suggest/main/assets/images/logo.png",
 		idPrefixes: [""],
 		behaviorHints: {
 			configurable: true,

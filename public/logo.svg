@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16102e"/>
+      <stop offset="100%" stop-color="#070a14"/>
+    </linearGradient>
+
+    <!-- Radial Ambient Glow -->
+    <radialGradient id="ambientGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#070a14" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- W Leg 1 Gradient -->
+    <linearGradient id="leg1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+
+    <!-- W Leg 2 Gradient -->
+    <linearGradient id="leg2Grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+
+    <!-- W Leg 3 Gradient -->
+    <linearGradient id="leg3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <!-- W Leg 4 Gradient -->
+    <linearGradient id="leg4Grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <!-- Sparkle Gradient -->
+    <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#e879f9"/>
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Base Rounded Container -->
+  <rect x="6" y="6" width="500" height="500" rx="105" ry="105" fill="url(#bgGrad)" stroke="#3a2b66" stroke-width="4"/>
+
+  <!-- Ambient Glow -->
+  <circle cx="256" cy="256" r="190" fill="url(#ambientGlow)"/>
+
+  <!-- W Stylized Facets -->
+  <g id="letter-w" filter="url(#glow)">
+    <!-- Leg 1 -->
+    <polygon points="95,140 155,140 205,375 145,375" fill="url(#leg1Grad)"/>
+    <!-- Leg 2 -->
+    <polygon points="145,375 205,375 285,215 230,215" fill="url(#leg2Grad)"/>
+    <!-- Leg 3 -->
+    <polygon points="230,215 285,215 367,375 312,375" fill="url(#leg3Grad)"/>
+    <!-- Leg 4 -->
+    <polygon points="312,375 367,375 417,140 357,140" fill="url(#leg4Grad)"/>
+  </g>
+
+  <!-- Recommendation Sparkle / Star in top-right -->
+  <g transform="translate(405, 110)">
+    <polygon points="0,-24 7,-7 24,0 7,7 0,24 -7,7 -24,0 -7,-7" fill="url(#sparkleGrad)"/>
+    <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+  </g>
+</svg>

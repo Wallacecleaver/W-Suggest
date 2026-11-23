@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/DHKJ7dT.png" alt="Logo W Suggest" width="150" />
+  <img src="assets/images/logo.png" alt="Logo W Suggest" width="150" />
 </p>
 
 <h1 align="center">W Suggest</h1>
