@@ -148,15 +148,13 @@ npm start
 | Variable           | Description                                        | Valeur par défaut       |
 | ------------------ | -------------------------------------------------- | ----------------------- |
 | DASHBOARD_PASSWORD | Mot de passe requis pour accéder à `/dashboard`     | *(Désactivé si vide)*   |
+| SQLITE_PATH        | Chemin du fichier de base de données SQL pour le cache | `./data/cache.sqlite` |
 | ENABLE_LOGGING     | Active les journaux de développement dans `logs/`  | `false`                 |
 | PORT               | Port d'écoute du serveur de l'addon                | `8080`                  |
 | CACHE_TTL          | Durée de vie du cache en secondes                  | `259200` (3 jours)      |
-| CACHE_MAX_SIZE     | Taille maximale du cache mémoire local             | `3000`                  |
+| CACHE_MAX_SIZE     | Taille maximale du cache (nombre d'entrées)        | `3000`                  |
 | GEMINI_MAX_RESULT  | Nombre maximum de résultats Gemini IA par catalogue| `20`                    |
-| REDIS_URL          | URL de connexion Redis                             |                         |
-| REDIS_HOST         | Hôte Redis                                         |                         |
-| REDIS_PORT         | Port Redis                                         |                         |
-| REDIS_DB           | Index de base de données Redis                     |                         |
+| REDIS_URL          | *(Optionnel)* URL Redis si vous préférez Redis      | *(Désactivé, SQLite actif)* |
 
 ## 📊 Tableau de bord d'administration (Dashboard)
 
@@ -165,7 +163,7 @@ Accédez au tableau de bord d'administration intégré à l'adresse : `http://lo
 Fonctionnalités incluses :
 - **Authentification sécurisée** : Protégé par `DASHBOARD_PASSWORD` défini dans le `.env`.
 - **Métriques système & trafic** : Uptime, consommation mémoire, décompte des requêtes, latence et temps de réponse.
-- **Gestion du Cache** : Taux de succès (hit ratio), statistiques mémoire locale/Redis et purge du cache en un clic.
+- **Gestion du Cache** : Taux de succès (hit ratio), statistiques de la base SQL SQLite et purge du cache en un clic.
 - **Visualiseur de Logs** : Consultation en temps réel et purge des fichiers `app.log`, `error.log`, `cache.log`, et `emptyCatalog.log`.
 - **Surveillance des Fournisseurs** : État opérationnel en direct des services externes (Cinemeta, TMDB, Trakt, Simkl, Gemini, TasteDive, RPDB).
 - **Testeur interactif de clés API** : Validez vos clés API directement depuis le tableau de bord.

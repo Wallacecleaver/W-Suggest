@@ -1,6 +1,10 @@
 # Logs
 logs
 *.log
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

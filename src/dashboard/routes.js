@@ -161,6 +161,8 @@ router.get("/api/summary", async (req, res) => {
 				hitRatio: cache.hitRatio,
 				localSize: cache.localSize,
 				maxLocalSize: cache.maxLocalSize,
+				backend: cache.backend,
+				useSqlite: cache.useSqlite,
 				useRedis: cache.useRedis,
 				redisStats: cache.redisStats,
 			},

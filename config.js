@@ -1,5 +1,6 @@
 // Load environment variables from .env file
 require("dotenv").config();
+const path = require("path");
 
 const ENABLE_LOGGING = process.env.ENABLE_LOGGING === "true" || false;
 const ENCRYPTION_KEY_INPUT = process.env.ENCRYPTION_KEY || null;
@@ -11,9 +12,10 @@ const DASHBOARD_SESSION_SECRET = process.env.DASHBOARD_SESSION_SECRET || process
 // Server
 const PORT = process.env.PORT || 8080;
 
-// Cache Configs
-const CACHE_TTL = process.env.CACHE_TTL || 3 * 24 * 60 * 60; // Cache expiration time - 3 days
-const MAX_CACHE_SIZE = process.env.CACHE_MAX_SIZE || 3000;
+// Cache Configs (SQLite SQL Database by default)
+const SQLITE_PATH = process.env.SQLITE_PATH || path.join(__dirname, "data", "cache.sqlite");
+const CACHE_TTL = process.env.CACHE_TTL ? parseInt(process.env.CACHE_TTL, 10) : 3 * 24 * 60 * 60; // Cache expiration time - 3 days
+const MAX_CACHE_SIZE = process.env.CACHE_MAX_SIZE ? parseInt(process.env.CACHE_MAX_SIZE, 10) : 3000;
 const REDIS_URL = process.env.REDIS_URL || null;
 const REDIS_HOST = process.env.REDIS_HOST || null;
 const REDIS_PORT = process.env.REDIS_PORT || null;
@@ -75,6 +77,7 @@ module.exports = {
 	REDIS_HOST,
 	REDIS_PORT,
 	REDIS_DB,
+	SQLITE_PATH,
 	DASHBOARD_PASSWORD,
 	DASHBOARD_SESSION_SECRET,
 };

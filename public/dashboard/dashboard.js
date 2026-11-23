@@ -252,7 +252,7 @@ async function loadSummary() {
 		document.getElementById("envPort").textContent = data.environment.port;
 		document.getElementById("envLogging").textContent = data.environment.loggingEnabled ? "Activé" : "Désactivé";
 		document.getElementById("envEncryption").textContent = data.environment.encryptionEnabled ? "Chiffré (Clé active)" : "Non chiffré";
-		document.getElementById("envCacheType").textContent = data.cache.useRedis ? "Redis" : "Mémoire locale (Map)";
+		document.getElementById("envCacheType").textContent = data.cache.backend || (data.cache.useRedis ? "Redis" : "SQLite (Base SQL)");
 		document.getElementById("envNodeVer").textContent = data.system.nodeVersion;
 		document.getElementById("envGeminiModel").textContent = data.environment.geminiModel || "gemini-2.5-flash-lite";
 
@@ -317,7 +317,7 @@ async function loadCacheDetails() {
 		document.getElementById("cacheDetailSets").textContent = data.sets;
 		document.getElementById("cacheDetailRatio").textContent = data.hitRatio;
 		document.getElementById("cacheDetailSize").textContent = `${data.localSize} / ${data.maxLocalSize}`;
-		document.getElementById("cacheDetailBackend").textContent = data.useRedis ? "Redis" : "In-Memory (Local Map)";
+		document.getElementById("cacheDetailBackend").textContent = data.backend || (data.useRedis ? "Redis" : "SQLite (Base SQL)");
 
 		const keysContainer = document.getElementById("cacheRecentKeys");
 		if (keysContainer) {
