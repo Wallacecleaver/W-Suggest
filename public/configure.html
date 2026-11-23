@@ -64,7 +64,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="tmdbApiKey" name="tmdbApiKey" placeholder="Colle ta clé TMDB" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('tmdb')">Vérifier</button>
-									<input type="hidden" name="validatedTmdbApiKey" id="validatedTmdbApiKey" />
 								</div>
 								<div id="tmdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -76,7 +75,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="traktApiKey" name="traktApiKey" placeholder="Colle ta clé Trakt" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('trakt')">Vérifier</button>
-									<input type="hidden" name="validatedTraktApiKey" id="validatedTraktApiKey" />
 								</div>
 								<div id="trakt-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -88,7 +86,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="geminiApiKey" name="geminiApiKey" placeholder="Colle ta clé Gemini AI" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('gemini')">Vérifier</button>
-									<input type="hidden" name="validatedGeminiApiKey" id="validatedGeminiApiKey" />
 								</div>
 								<div id="gemini-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -100,7 +97,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="tastediveApiKey" name="tastediveApiKey" placeholder="Colle ta clé TasteDive" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('tastedive')">Vérifier</button>
-									<input type="hidden" name="validatedTastediveApiKey" id="validatedTastediveApiKey" />
 								</div>
 								<div id="tastedive-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -112,7 +108,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="watchmodeApiKey" name="watchmodeApiKey" placeholder="Colle ta clé Watchmode" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('watchmode')">Vérifier</button>
-									<input type="hidden" name="validatedWatchmodeApiKey" id="validatedWatchmodeApiKey" />
 								</div>
 								<div id="watchmode-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -124,7 +119,6 @@
 								<div class="input-with-verify">
 									<input type="text" id="simklApiKey" name="simklApiKey" placeholder="Colle ta clé Simkl" autocomplete="off" spellcheck="false" />
 									<button type="button" class="verify-btn" onclick="verifyApiKey('simkl')">Vérifier</button>
-									<input type="hidden" name="validatedSimklApiKey" id="validatedSimklApiKey" />
 								</div>
 								<div id="simkl-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
@@ -306,7 +300,6 @@
 							<div class="input-with-verify">
 								<input type="text" id="rpdbApiKey" name="rpdbApiKey" placeholder="Colle ta clé RPDB" autocomplete="off" spellcheck="false" />
 								<button type="button" class="verify-btn" onclick="verifyApiKey('rpdb')">Vérifier</button>
-								<input type="hidden" name="validatedRpdbApiKey" id="validatedRpdbApiKey" />
 							</div>
 							<div id="rpdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 						</div>
@@ -321,8 +314,9 @@
 					</div>
 
 					<div class="button-group">
-						<button type="submit" id="installBtn" class="install-button"><span aria-hidden="true">✨</span> Installer dans Stremio</button>
-						<button type="submit" id="copyManifestBtn" class="copy-manifest-button">Copier le lien d’installation</button>
+						<p id="installationStatus" class="installation-status" role="status">Vérifie une clé de recommandation pour déverrouiller l’installation.</p>
+						<button type="submit" id="installBtn" disabled aria-describedby="installationStatus" class="install-button"><span aria-hidden="true">✨</span> Installer dans Stremio</button>
+						<button type="submit" id="copyManifestBtn" disabled aria-describedby="installationStatus" class="copy-manifest-button">Copier le lien d’installation</button>
 					</div>
 				</form>
 

@@ -14,9 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		nicknameInput.setCustomValidity(validNickname ? "" : "Saisis un pseudo de 2 à 32 caractères.");
 		if (!form.reportValidity()) return false;
 
-		if (validateApiKeys()) return true;
-		alert("Vérifie toutes les clés API saisies avant de continuer.");
-		return false;
+		return updateInstallationState();
 	}
 
 	form.addEventListener("submit", (event) => {
@@ -69,27 +67,3 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 });
-
-// Function to make sure all inputed API Keys are validated first before submiting form
-function validateApiKeys() {
-	const sources = ["tmdb", "trakt", "gemini", "tastedive", "watchmode", "simkl", "rpdb"];
-	let allValid = true;
-
-	for (const source of sources) {
-		const input = document.getElementById(`${source}ApiKey`);
-		const apiKey = input?.value.trim();
-		const isValid = input?.getAttribute("data-valid") === "true";
-
-		if (apiKey && !isValid) {
-			allValid = false;
-
-			const status = document.getElementById(`${source}-verify-status`);
-			if (status) {
-				status.textContent = "Vérifie cette clé avant de continuer.";
-				status.classList.add("error");
-			}
-		}
-	}
-
-	return allValid;
-}

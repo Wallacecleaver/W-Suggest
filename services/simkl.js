@@ -12,6 +12,7 @@ async function validateAPIKey(apiKey) {
 		const url = `${SIMKL_API_BASE_URL}/movies/trending?client_id=${apiKey}`;
 
 		const response = await fetch(url);
+		if (!response.ok) return false;
 		const json = await response.json();
 
 		return json?.error ? false : true;

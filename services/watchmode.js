@@ -12,6 +12,7 @@ async function validateAPIKey(apiKey) {
 		const url = `${WATCHMODE_API_BASE_URL}/sources/?apiKey=${apiKey}`;
 
 		const response = await fetch(url);
+		if (!response.ok) return false;
 		const json = await response.json();
 
 		return json.errorMessage ? false : true;

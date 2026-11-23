@@ -10,6 +10,7 @@ async function validateAPIKey(apiKey) {
 	try {
 		const url = `${RPDB_API_BASE_URL}/${apiKey}/isValid`;
 		const response = await fetch(url);
+		if (!response.ok) return false;
 		const json = await response.json();
 		return json ? true : false;
 	} catch (error) {

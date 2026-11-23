@@ -25,10 +25,11 @@ async function validateAPIKey(apiKey) {
 		};
 
 		const response = await fetch(url, options);
+		if (!response.ok) return false;
 
 		const json = await response.json();
 
-		return json ? true : false;
+		return Array.isArray(json);
 	} catch (error) {
 		return false;
 	}

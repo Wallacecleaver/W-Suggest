@@ -15,6 +15,9 @@ const { metricsMiddleware } = require("./src/dashboard/metrics");
 const dashboardRouter = require("./src/dashboard/routes");
 const packageJson = require("./package.json");
 
+const RECOMMENDATION_SOURCES = ["tmdb", "trakt", "tastedive", "gemini", "watchmode", "simkl"];
+const API_KEY_SOURCES = [...RECOMMENDATION_SOURCES, "rpdb"];
+
 async function loadUserConfig(config) {
 	const defaultConfig = {
 		apiKeys: {
@@ -269,24 +272,35 @@ async function startServer() {
 	});
 
 	app.post("/saveConfig", async (req, res) => {
+		const forCopy = req.body?.forCopy === "true";
+		const rejectConfig = (error) => {
+			if (forCopy) return res.status(400).json({ error });
+			return res.status(400).send(error);
+		};
 		const nickname = typeof req.body?.nickname === "string" ? req.body.nickname.trim() : "";
 		if (nickname.length < 2 || nickname.length > 32 || /[\u0000-\u001f\u007f-\u009f]/.test(nickname)) {
-			const error = "Saisis un pseudo de 2 à 32 caractères.";
-			if (req.body?.forCopy === "true") return res.status(400).json({ error });
-			return res.status(400).send(error);
+			return rejectConfig("Saisis un pseudo de 2 à 32 caractères.");
 		}
 
 		try {
-			// Build API Keys object
-			const sources = ["tmdb", "trakt", "tastedive", "gemini", "watchmode", "simkl", "rpdb"];
-			const apiKeys = {};
-
-			for (const source of sources) {
+			const submittedKeys = {};
+			for (const source of API_KEY_SOURCES) {
 				const key = req.body[`${source}ApiKey`];
-				apiKeys[source] = {
-					key: key || "",
-					valid: Boolean(key),
-				};
+				if (key != null && typeof key !== "string") return rejectConfig("Format de clé API invalide.");
+				submittedKeys[source] = key?.trim() || "";
+			}
+
+			if (!RECOMMENDATION_SOURCES.some((source) => submittedKeys[source])) {
+				return rejectConfig("Ajoute et vérifie au moins une clé de recommandation.");
+			}
+
+			const results = await validateApiKeys(submittedKeys);
+			const apiKeys = {};
+			for (const [source, key] of Object.entries(submittedKeys)) {
+				if (key && results[source]?.valid !== true) {
+					return rejectConfig("Impossible de valider toutes les clés saisies. Vérifie-les dans la configuration, puis réessaie.");
+				}
+				apiKeys[source] = { key, valid: Boolean(key) };
 			}
 
 			const metadataSource = req.body.metadataSource || null;
@@ -330,26 +344,25 @@ async function startServer() {
 
 			const manifestUrl = `${protocol}://${host}/${userConfig}/manifest.json`;
 
-			if (req.body.forCopy === "true") {
+			if (forCopy) {
 				return res.json({ manifestUrl });
 			}
 
 			return res.redirect(`stremio://${host}/${userConfig}/manifest.json`);
 		} catch (error) {
-			res.status(400).send("Error: Something went wrong. Please try again.");
+			return rejectConfig("Impossible d’enregistrer la configuration. Réessaie.");
 		}
 	});
 
 	app.post("/verifyKey", async (req, res) => {
 		try {
-			const { source, key } = req.body;
-
-			if (!source || !key) {
-				return res.status(400).json({ valid: false, error: "Missing source or key" });
+			const { source, key } = req.body || {};
+			if (!API_KEY_SOURCES.includes(source) || typeof key !== "string" || !key.trim()) {
+				return res.status(400).json({ valid: false, error: "Source ou clé API invalide." });
 			}
 
-			const result = await validateApiKeys({ [source]: key });
-			res.json(result[source]);
+			const result = await validateApiKeys({ [source]: key.trim() });
+			res.json({ valid: result[source]?.valid === true, error: result[source]?.error });
 		} catch (err) {
 			res.status(500).json({ valid: false, error: "Server error during validation" });
 		}
