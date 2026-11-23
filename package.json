@@ -7,6 +7,7 @@
 	"main": "addon.js",
 	"scripts": {
 		"start": "node server.js",
+		"build:db": "node scripts/build-id-db.js",
 		"test": "node test-dashboard.js"
 	},
 	"dependencies": {
