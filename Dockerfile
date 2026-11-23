@@ -15,8 +15,8 @@ COPY . .
 RUN rm -f data/watchmode_title_id_map.json
 
 FROM dependencies AS runtime
-COPY --from=source /app/ ./
 COPY --from=id-database /app/data/id_map.db ./data/
+COPY --from=source /app/ ./
 
 EXPOSE 3000
 CMD ["node", "--max-old-space-size=256", "server.js"]

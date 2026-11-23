@@ -9,3 +9,5 @@ logs/
 coverage/
 *.spec.js
 *.test.js
+/data/*.db*
+/data/*.sqlite*
