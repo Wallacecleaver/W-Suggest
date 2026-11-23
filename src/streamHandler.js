@@ -16,8 +16,8 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource, p
 		["movie", "series"].includes(type) && /^(tt\d+|(?:tmdb|trakt|kitsu):\d+)$/.test(searchId)) {
 		return {
 			streams: [{
-				name: "Voir les recommandations",
-				description: "Films et séries similaires sur W Suggest",
+				name: "✨ Découvrir les recommandations",
+				description: type === "movie" ? "🎬 Films similaires • W Suggest" : "📺 Séries similaires • W Suggest",
 				externalUrl: `${pageUrl}#${new URLSearchParams({ config, type, id: searchId })}`,
 			}],
 			cacheMaxAge: 0,

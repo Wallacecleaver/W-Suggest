@@ -1,20 +1,22 @@
-# Use an official Node.js image as the base
-FROM node:22
-
-# Create app directory
+FROM node:22 AS base
 WORKDIR /app
 
-# Copy package.json and install dependencies
+FROM base AS dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the code
-COPY . .
+FROM dependencies AS id-database
+COPY scripts/build-id-db.js ./scripts/
+COPY data/watchmode_title_id_map.json ./data/
+RUN node scripts/build-id-db.js
 
-# Build SQLite ID database and remove raw 75MB JSON to save memory and image size
-RUN node scripts/build-id-db.js && rm -f data/watchmode_title_id_map.json
+FROM base AS source
+COPY . .
+RUN rm -f data/watchmode_title_id_map.json
+
+FROM dependencies AS runtime
+COPY --from=source /app/ ./
+COPY --from=id-database /app/data/id_map.db ./data/
 
 EXPOSE 3000
-
-# Start the app with optimized V8 memory limit
 CMD ["node", "--max-old-space-size=256", "server.js"]
