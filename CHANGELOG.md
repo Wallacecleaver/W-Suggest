@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.0.0 (2026-11-23)
+
+
+### Features
+
+* add admin dashboard with password auth (.env) ([76574b8](https://github.com/Wallacecleaver/W-Suggest/commit/76574b892279aec84f2a20eaf7fb14f446698cef))
+* add new custom stylized W logo (PNG & SVG) ([51bca20](https://github.com/Wallacecleaver/W-Suggest/commit/51bca2079232af97209e1cdadf813774665060ca))
+* **configure:** page de configuration en français, nouveau design (mise en page 2 colonnes, interrupteurs, barre d'actions) ([631cc84](https://github.com/Wallacecleaver/W-Suggest/commit/631cc8419b8761fd9763517653128897cb948b91))
+* **dashboard:** refonte visuelle cohérente avec /configure, icônes SVG, graphique de durée, correctifs XSS (chemins, clés de cache, journaux) ([05b15cf](https://github.com/Wallacecleaver/W-Suggest/commit/05b15cf0ea33729b01f204ead412f94abf71244e))
+* **dashboard:** retire Redis de l'interface, ajoute SQLite, jauges, barre des codes HTTP et anneau du cache ([a1e1dc1](https://github.com/Wallacecleaver/W-Suggest/commit/a1e1dc1b16c8d664f190d19eaa772b217910e4a0))
+* replace Redis with native SQLite SQL database cache ([c8f0814](https://github.com/Wallacecleaver/W-Suggest/commit/c8f081486a4a00f68235e1991cfbf4c1791ab769))
+
+
+### Bug Fixes
+
+* **configure:** ajoute le favicon ([8c60991](https://github.com/Wallacecleaver/W-Suggest/commit/8c6099154b9b04f6bc064a005b04374877a712fc))
+* use node:22 (better-sqlite3@13 requires node&gt;=22, fixes segfault) ([2127a6e](https://github.com/Wallacecleaver/W-Suggest/commit/2127a6e4263ca979c2847827bb7d9d86c17c6c13))
+
+
+### Performance Improvements
+
+* optimize memory from 560MB to 50MB by replacing 75MB JSON with indexed SQLite ([0e9b0cd](https://github.com/Wallacecleaver/W-Suggest/commit/0e9b0cd45c12b0c6e0abe4defea8cf529511fb0d))
+
 ## [0.12.1](https://github.com/rama1997/More-Like-This/compare/v0.12.0...v0.12.1) (2026-08-08)
 
 
