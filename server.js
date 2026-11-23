@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { streamHandler } = require("./src/streamHandler");
+const { recommendationPageData } = require("./src/recommendationPage");
 const { metaHandler } = require("./src/metaHandler");
 const { catalogHandler } = require("./src/catalogHandler");
 const express = require("express");
@@ -210,7 +211,15 @@ async function startServer() {
 			keepEnglishPosters: userConfig.keepEnglishPosters,
 		};
 
-		const streams = await streamHandler(req.headers["origin"], req.params.type, req.params.id, userConfig, metadataSource);
+		const host = req.get("host");
+		const protocol = /^(localhost|127\.0\.0\.1)(:\d+)?$/i.test(host) ? "http" : "https";
+		const pageUrl = ENCRYPTION_KEY_INPUT && host
+			? `${protocol}://${host}/recommendations.html`
+			: null;
+		const streams = await streamHandler(
+			req.headers.origin, req.params.type, req.params.id, userConfig, metadataSource,
+			pageUrl, req.params.userConfig,
+		);
 		res.json(streams);
 	});
 
@@ -228,6 +237,35 @@ async function startServer() {
 
 		const meta = await metaHandler(req.params.type, req.params.id, userConfig, metadataSource);
 		res.json(meta);
+	});
+
+	app.post("/api/recommendations", async (req, res) => {
+		res.set("Cache-Control", "no-store");
+		const { config, type, id } = req.body || {};
+		if (typeof config !== "string" || !["movie", "series"].includes(type) ||
+			typeof id !== "string" || !/^(tt\d+|(?:tmdb|trakt|kitsu):\d+)$/.test(id)) {
+			return res.status(400).json({ error: "Lien de recommandations invalide." });
+		}
+
+		try {
+			const userConfig = await loadUserConfig(config);
+			if (!userConfig.enabledStreamButtons?.recs) {
+				return res.status(403).json({ error: "Ouvre la page depuis le bouton W Suggest dans Stremio." });
+			}
+			const metadataSource = {
+				source: userConfig.metadataSource === "tmdb" && userConfig.apiKeys.tmdb.valid ? "tmdb" : "cinemeta",
+				tmdbApiKey: userConfig.apiKeys.tmdb,
+				traktApiKey: userConfig.apiKeys.trakt,
+				language: userConfig.language,
+				keepEnglishPosters: userConfig.keepEnglishPosters,
+			};
+			const data = await recommendationPageData(type, id, userConfig, metadataSource);
+			if (!data) return res.status(404).json({ error: "Ce titre est introuvable." });
+			return res.json(data);
+		} catch (error) {
+			logger.error("Recommendation page failed", error);
+			return res.status(502).json({ error: "Impossible de charger les recommandations pour le moment." });
+		}
 	});
 
 	app.post("/saveConfig", async (req, res) => {

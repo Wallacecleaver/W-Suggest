@@ -1,4 +1,4 @@
-async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
+async function streamHandler(origin, type, metaId, userConfig, metadataSource, pageUrl, config) {
 	// Parse for proper ids to search
 	let searchId = metaId.startsWith("mlt") ? metaId.split("-").slice(2).join("-") : metaId;
 
@@ -53,8 +53,10 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
 		} else if (button === "recs" && enabledStreamButtons.recs) {
 			const recsButton = {
 				name: "W Suggest",
-				description: `Show similar movies/shows`,
-				externalUrl: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + `/detail/${type}/mlt-rec-${searchId}`,
+				description: "Voir les recommandations",
+				externalUrl: pageUrl
+					? `${pageUrl}#${new URLSearchParams({ config, type, id: searchId })}`
+					: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + `/detail/${type}/mlt-rec-${searchId}`,
 			};
 
 			stream.push(recsButton);
