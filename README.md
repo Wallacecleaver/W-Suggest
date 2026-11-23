@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/DHKJ7dT.png" alt="W Suggest Logo" width="150" />
+  <img src="https://i.imgur.com/DHKJ7dT.png" alt="Logo W Suggest" width="150" />
 </p>
 
 <h1 align="center">W Suggest</h1>
@@ -7,71 +7,71 @@
 <div align="center">
 
   <a href="https://github.com/Wallacecleaver/W-Suggest">
-      <img src="https://img.shields.io/badge/status-active-brightgreen?logo=github" alt="Status">
+      <img src="https://img.shields.io/badge/statut-actif-brightgreen?logo=github" alt="Statut">
   </a>
   <a href="https://github.com/Wallacecleaver/W-Suggest/releases">
-      <img src="https://img.shields.io/github/v/tag/Wallacecleaver/W-Suggest?logo=github" alt="Latest Release">
+      <img src="https://img.shields.io/github/v/tag/Wallacecleaver/W-Suggest?logo=github" alt="Dernière version">
   </a>
   <a href="https://github.com/Wallacecleaver/W-Suggest/stargazers">
-      <img src="https://img.shields.io/github/stars/Wallacecleaver/W-Suggest?style=flat&logo=github" alt="GitHub Stars">
+      <img src="https://img.shields.io/github/stars/Wallacecleaver/W-Suggest?style=flat&logo=github" alt="Étoiles GitHub">
   </a>
   <a href="https://github.com/Wallacecleaver/W-Suggest/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/Wallacecleaver/W-Suggest" alt="License">
+      <img src="https://img.shields.io/github/license/Wallacecleaver/W-Suggest" alt="Licence">
   </a>
 
 </div>
 <br></br>
 
-# ✨ What is W Suggest?
+# ✨ Qu'est-ce que W Suggest ?
 
-**W Suggest** is a Stremio addon that fetches similar movie and TV show recommendations from multiple sources, all in one place.
+**W Suggest** est un addon Stremio qui récupère des recommandations similaires de films et séries télévisées depuis de multiples sources, regroupées au même endroit.
 
 <p align="center">
-  <img src="https://i.imgur.com/BW9xWHU.jpeg" alt="example1" width="700" />
+  <img src="https://i.imgur.com/BW9xWHU.jpeg" alt="exemple1" width="700" />
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/KBBGfvi.jpeg" alt="example2" width="700" />
+  <img src="https://i.imgur.com/KBBGfvi.jpeg" alt="exemple2" width="700" />
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/nuXpDyO.png" alt="example2" width="700" />
+  <img src="https://i.imgur.com/nuXpDyO.png" alt="exemple2" width="700" />
 </p>
 
-# Features
+# Fonctionnalités
 
-- Pulls recommendations from several different sources:
-  - **TMDB** (Including TMDB Collections)
+- Récupère des recommandations depuis plusieurs sources différentes :
+  - **TMDB** (y compris les collections TMDB)
   - **Trakt**
   - **Simkl**
   - **Watchmode**
-  - **Gemini AI**
+  - **Gemini IA**
   - **Tastedive**
-- Find recommendations by searching for:
-  - **IMDb ID**
-  - **Kitsu ID**
-  - **TMDB ID**
-  - **Trakt ID**
-  - **Movie/TV Show Title**
-- Supports **RPDB** posters
-- Multi Language Support
+- Recherche de recommandations par :
+  - **Identifiant IMDb (IMDb ID)**
+  - **Identifiant Kitsu (Kitsu ID)**
+  - **Identifiant TMDB (TMDB ID)**
+  - **Identifiant Trakt (Trakt ID)**
+  - **Titre du film ou de la série**
+- Prise en charge des affiches **RPDB** (Rating Poster Database)
+- Prise en charge multilingue
 
 # 🚀 Installation
 
-Self-host the addon (see below), then open its `/configure` page to install it in Stremio.
+Auto-hébergez l'addon (voir ci-dessous), puis ouvrez sa page `/configure` pour l'installer dans Stremio.
 
-You’ll need API keys for the sources you wish to use. For example, if you want only TMDB recommendations, you only need a TMDB API key.
-Links to obtain free API keys are available on the addon’s configuration page.
+Vous aurez besoin de clés d'API pour les sources que vous souhaitez utiliser. Par exemple, si vous ne souhaitez que les recommandations TMDB, seule une clé d'API TMDB est requise.
+Les liens pour obtenir des clés d'API gratuites sont disponibles directement sur la page de configuration de l'addon.
 
 ## Docker
 
-You can use a prebuilt images from Docker Hub:
+Vous pouvez utiliser une image préconstruite depuis Docker Hub :
 
 ```bash
 docker pull wallacecleaver/w-suggest
 ```
 
-Or clone this repo:
+Ou cloner ce dépôt :
 
 ```bash
 git clone https://github.com/Wallacecleaver/W-Suggest.git
@@ -79,39 +79,39 @@ git clone https://github.com/Wallacecleaver/W-Suggest.git
 
 ### Docker CLI
 
-1. Build Docker Image
+1. Construire l'image Docker
 
 ```bash
 docker build -t w-suggest .
 ```
 
-2. Run Docker Container
+2. Lancer le conteneur Docker
 
 ```bash
 docker run -p 8080:3000 w-suggest
 ```
 
-Can adjust addon via a `.env` file. See below for environment variables.
+Vous pouvez personnaliser l'addon via un fichier `.env`. Voir ci-dessous pour les variables d'environnement.
 
 ```bash
 docker run -p 8080:3000 --env-file .env w-suggest
 ```
 
-3. Access the addon's configure page at `localhost:8080`.
+3. Accédez à la page de configuration de l'addon sur `localhost:8080`.
 
 ### Docker Compose
 
-1. Run following command
+1. Lancez la commande suivante :
 
 ```bash
 docker compose up -d
 ```
 
-2. Can adjust addon via a `.env` file. See below for environment variables.
+2. Vous pouvez ajuster l'addon via un fichier `.env`. Voir ci-dessous pour les variables d'environnement.
 
-## Running Locally From Source
+## Lancement en local depuis les sources
 
-1. Clone the project repository and set it as the current directory
+1. Clonez le dépôt du projet et placez-vous dans le répertoire :
 
 ```bash
 git clone https://github.com/Wallacecleaver/W-Suggest.git
@@ -121,155 +121,148 @@ git clone https://github.com/Wallacecleaver/W-Suggest.git
 cd W-Suggest
 ```
 
-2. Create your local environment config by copying the environment example file:
+2. Créez votre fichier de configuration local en copiant le fichier d'exemple :
 
 ```bash
 cp .env.example .env
 ```
 
-3. Open `.env` and set desired variables. See below for environment variables.
+3. Ouvrez `.env` et configurez les variables souhaitées (voir tableau ci-dessous).
 
-4. Install project dependencies
+4. Installez les dépendances du projet :
 
 ```bash
 npm install
 ```
 
-5. Run project
+5. Lancez le projet :
 
 ```bash
 npm start
 ```
 
-6. Access the addon's configure page at `localhost:PORT`.
+6. Accédez à la page de configuration de l'addon sur `localhost:PORT`.
 
-## Environment Variables
+## Variables d'Environnement
 
-| Variable           | Description                                    | Default           |
-| ------------------ | ---------------------------------------------- | ----------------- |
-| DASHBOARD_PASSWORD | Password required to access `/dashboard`       | *(Disabled if empty)* |
-| ENABLE_LOGGING     | Enable logging for dev                         | `false`           |
-| PORT               | Desired port that addon listens on             | `8080`            |
-| CACHE_TTL          | Cache TTL (seconds)                            | `259200` (3 Days) |
-| CACHE_MAX_SIZE     | Max size of cache                              | `3000`            |
-| GEMINI_MAX_RESULT  | Max number of Gemini AI returns per catalog    | `20`              |
-| REDIS_URL          | Redis URL                                      |
-| REDIS_HOST         | Redis host                                     |
-| REDIS_PORT         | Redis port                                     |
-| REDIS_DB           | Redis database index                           |
+| Variable           | Description                                        | Valeur par défaut       |
+| ------------------ | -------------------------------------------------- | ----------------------- |
+| DASHBOARD_PASSWORD | Mot de passe requis pour accéder à `/dashboard`     | *(Désactivé si vide)*   |
+| ENABLE_LOGGING     | Active les journaux de développement dans `logs/`  | `false`                 |
+| PORT               | Port d'écoute du serveur de l'addon                | `8080`                  |
+| CACHE_TTL          | Durée de vie du cache en secondes                  | `259200` (3 jours)      |
+| CACHE_MAX_SIZE     | Taille maximale du cache mémoire local             | `3000`                  |
+| GEMINI_MAX_RESULT  | Nombre maximum de résultats Gemini IA par catalogue| `20`                    |
+| REDIS_URL          | URL de connexion Redis                             |                         |
+| REDIS_HOST         | Hôte Redis                                         |                         |
+| REDIS_PORT         | Port Redis                                         |                         |
+| REDIS_DB           | Index de base de données Redis                     |                         |
 
-## 📊 Admin Dashboard
+## 📊 Tableau de bord d'administration (Dashboard)
 
-Access the built-in administration dashboard at `http://localhost:PORT/dashboard`.
+Accédez au tableau de bord d'administration intégré à l'adresse : `http://localhost:PORT/dashboard`.
 
-Features include:
-- **Authentication**: Secured with `DASHBOARD_PASSWORD` from `.env`.
-- **System & Traffic Metrics**: Uptime, memory usage, request counts, response time distributions.
-- **Cache Management**: Cache hit ratio, local/Redis statistics, and one-click cache purge.
-- **Log Viewer**: Live viewer and clearer for `app.log`, `error.log`, `cache.log`, and `emptyCatalog.log`.
-- **Provider Health Checks**: Real-time status for external services (Cinemeta, TMDB, Trakt, Simkl, Gemini, TasteDive, RPDB).
-- **Interactive API Key Tester**: Test any provider's API key directly from the dashboard.
+Fonctionnalités incluses :
+- **Authentification sécurisée** : Protégé par `DASHBOARD_PASSWORD` défini dans le `.env`.
+- **Métriques système & trafic** : Uptime, consommation mémoire, décompte des requêtes, latence et temps de réponse.
+- **Gestion du Cache** : Taux de succès (hit ratio), statistiques mémoire locale/Redis et purge du cache en un clic.
+- **Visualiseur de Logs** : Consultation en temps réel et purge des fichiers `app.log`, `error.log`, `cache.log`, et `emptyCatalog.log`.
+- **Surveillance des Fournisseurs** : État opérationnel en direct des services externes (Cinemeta, TMDB, Trakt, Simkl, Gemini, TasteDive, RPDB).
+- **Testeur interactif de clés API** : Validez vos clés API directement depuis le tableau de bord.
 
 # Configuration
 
-- **Include TMDB Collections in Recommendation**:  
-  TMDB groups related movies (like sequels and film series) into 'collections.' These movies are not always included in TMDB’s default recommendations.
-  Enable this setting to add collection movies to the start of the TMDB recommendation list.
-  Tip: This is useful if you want all directly related movies shown, but it may clutter the catalog for films with many sequels or large franchises."
+- **Inclure les collections TMDB dans les recommandations** :  
+  TMDB regroupe les films associés (suites, sagas) en « collections ». Ces films ne sont pas systématiquement inclus dans les recommandations par défaut de TMDB.  
+  Activez cette option pour ajouter les films d'une même collection au début de la liste des recommandations TMDB.  
+  *Astuce : Pratique si vous voulez voir toutes les suites directes, mais peut encombrer le catalogue pour les sagas comprenant beaucoup de films.*
 
-- **Combine Into One Catalog**:  
-  By default, each recommendation source appears as its own catalog.
-  Enable this option to merge all recommendations into a single catalog. Combined catalogs will display the most frequent recommendations first.
-  (Note: Combined catalogs may load more slowly.)
+- **Combiner en un seul catalogue** :  
+  Par défaut, chaque source de recommandation apparaît comme un catalogue distinct.  
+  Activez cette option pour fusionner toutes les recommandations au sein d'un seul catalogue. Les titres les plus fréquemment recommandés apparaîtront en premier.  
+  *(Remarque : Les catalogues combinés peuvent être un peu plus lents à charger).*
 
-- **Catalog Order**:  
-  Drag and drop to reorder how catalogs are displayed.
+- **Ordre des catalogues** :  
+  Glissez-déposez pour réorganiser l'ordre d'affichage des catalogues.
 
-- **Enable Manual Title Searching**:  
-  Enable this option to search by movie/show titles on top of IMDb IDs.
-  (Note: Title-based searching is less accurate than using exact IDs.)
+- **Activer la recherche manuelle par titre** :  
+  Activez cette option pour chercher des recommandations par le titre du film/série en plus des identifiants IMDb.  
+  *(Remarque : La recherche par titre est moins précise que l'utilisation d'identifiants exacts).*
 
-- **Metadata Source**:  
-  By default, the addon uses Cinemeta (Stremio’s main addon) for movie and show metadata.
-  Enable this setting to use TMDB as the metadata source instead. (Requires a TMDB API key.)
-  Tip: TMDB is generally more reliable than Cinemeta.
+- **Source de métadonnées** :  
+  Par défaut, l'addon utilise Cinemeta (l'addon officiel de Stremio) pour les métadonnées des films et séries.  
+  Activez ce réglage pour utiliser TMDB comme source de métadonnées à la place (nécessite une clé d'API TMDB).  
+  *Astuce : TMDB est généralement plus fiable et complet que Cinemeta.*
 
-- **Language**:  
-  Select the language used for posters, metadata, and search queries. Only available when using TMDB as the metadata source.
+- **Langue** :  
+  Sélectionnez la langue utilisée pour les affiches, métadonnées et requêtes. Disponible uniquement lorsque TMDB est utilisé comme source de métadonnées.
 
-- **Keep English Poster**:  
-  Preserve the original English poster artwork even when metadata is set to a non-English language.
+- **Conserver les affiches en anglais** :  
+  Permet de conserver les posters originaux en anglais même lorsque les métadonnées sont configurées dans une autre langue.
 
-- **Stream Button**:  
-  Drag and drop to reorder stream buttons, or disable specific ones from appearing.
+- **Boutons de flux (Stream Buttons)** :  
+  Glissez-déposez pour réorganiser les boutons de flux ou masquer ceux que vous ne souhaitez pas afficher.
 
-  Available buttons:
+  Boutons disponibles :
+  - *Voir les détails* – Ouvre la fiche détaillée de l'élément dans Stremio.
+  - *Rechercher sur l'App* – Lance la recherche de recommandations directement dans l'application Stremio.
+  - *Rechercher sur le Web* – Lance la recherche sur Stremio Web.
+  - *Afficher des films/séries similaires* – Génère et affiche les recommandations sous forme de flux dans Stremio.
 
-  - See details – Opens the item’s detail page in Stremio.
-  - Search on App – Search for recommendations inside the Stremio app.
-  - Search on Web – Search for recommendations inside the Stremio web.
-  - Show similar movies/series – Generates and displays recommendations as streams in Stremio
+# Utilisation
 
-# Usage
+Pour n'importe quel film ou série télévisée, utilisez les boutons de flux fournis par l'addon pour accéder rapidement aux recommandations.
 
-For any movie or TV show, use the stream buttons provided by the addon to quickly access recommendations.
+## Obtenir des recommandations via la barre de recherche
 
-## Getting Recs From Search Bar
+Cliquez sur le bouton **Rechercher sur l'App** ou **Rechercher sur le Web** pour rechercher automatiquement dans Stremio en utilisant l'identifiant de l'élément.  
+Vous pouvez également saisir un identifiant manuellement dans la barre de recherche de Stremio.
 
-Click the **Search in App** or **Search in Web** stream button to automatically search Stremio using the item’s ID.
-You can also enter an ID manually in Stremio’s search bar.
+Si la recherche par titre est activée, vous pouvez aussi saisir un titre. Pour de meilleurs résultats, saisissez le titre exact et ajoutez :
 
-If title-based search is enabled, you can also search by entering the title. For the best results, use the exact title and include:
+- `y:` suivi de l'année de sortie
+- `t:` suivi du type (`movie` pour film ou `series` pour série)
 
-- `y:` followed by the release year
-
-- `t:` followed by the type (e.g., movie or series)
-
-Examples:
-
+Exemples :
 - `Inception y:2010 t:movie`
 - `Breaking Bad y:2008 t:series`
 
-You can also search using non IMDB ids from various sources.
-
-Examples:
-
+Vous pouvez aussi utiliser des identifiants issus d'autres plateformes :
 - `tmdb:1726`
 - `kitsu:12`
 
-## Getting Recs as Streams
+## Obtenir des recommandations sous forme de flux
 
-Click the **Show Recommendations** stream button to display recommendations directly as streams on the current page in Stremio.
-A combined catalog of all enabled sources will be shown.
+Cliquez sur le bouton de flux **Afficher les recommandations** pour faire apparaître les recommandations directement sous forme de flux sur la page en cours dans Stremio.  
+Un catalogue combiné de toutes les sources activées sera affiché.
 
-Limitations:
+Limitations :
+- L'interface de Stremio affiche toujours les informations du film ou de la série d'origine et ne s'adapte pas pour chaque recommandation. En solution de contournement, le détail des recommandations est ajouté dans la section Résumé (*Summary*).
+- Pour les séries TV, vous ne pouvez pas sélectionner directement un épisode depuis la liste des recommandations. L'addon fournit un bouton de flux optionnel qui vous redirige vers la page détaillée de la série.
+- Cette méthode est généralement plus lente car les métadonnées doivent être générées pour chaque recommandation. Les performances diminuent au fur et à mesure que vous activez plus de sources.
 
-- Stremio’s UI always reflects the original movie/series info and does not update per recommendation. As a workaround, recommendation details are added to the Summary section.
-- For TV series, you cannot directly select episodes from the recommendation list. Instead, the addon provides an optional stream button that takes you to the series’ detail page.
-- This method will generally be much slower because metadata must be generated for every recommendation. Performance decreases as more sources are enabled.
+## Astuces
 
-## Tips
+Voici quelques conseils pour obtenir les meilleurs résultats :
 
-Here are some tips to get the best results:
+- Utilisez le gestionnaire d'addons de Stremio pour placer cet addon tout en haut de votre liste. Cela garantit que son catalogue et ses boutons s'affichent en premier.  
+  *Remarque : Stremio recommande de garder Cinemeta en haut, ajustez donc avec précaution.*
+- Lors d'une recherche manuelle par titre, soyez précis en renseignant à la fois l'année et le type comme indiqué ci-dessus.
 
-- Use the Stremio Addon Manager to move this addon to the top of the addon list. This ensures the catalog and stream button appear first.
-  Note: Stremio recommends keeping Cinemeta at the top, so adjust with caution.
-- When manually searching by title, be precise and include both the year and type flags as shown above.
+## Problèmes connus & Limitations
 
-## Known Issues/Limitation
+Cet addon est un projet en cours d'amélioration. Bien qu'il fonctionne très bien dans la majorité des situations, quelques limitations subsistent :
 
-This addon is still a work in progress. While it works well in many scenarios, some limitations exist:
+- Les boutons de flux ne sont pas compatibles avec les Smart TVs ou Stremio 5 Beta. La recherche manuelle permet toutefois de faire remonter les catalogues de recommandations.
+- Les métadonnées TMDB peuvent ne pas s'afficher correctement sur la version Android stable actuelle, mais fonctionnent avec la nouvelle version bêta sur Android.
+- Les sorties très récentes, les titres non sortis ou le contenu international obscur peuvent parfois donner des résultats étranges ou vides.
+- Fonctionne de manière optimale avec les catalogues par défaut de Stremio. Non compatible avec d'autres addons générant des catalogues et identifiants personnalisés.
 
-- Stream button not supported on Smart TVs or Stremio 5 Beta. Manually searching should still yield recommendations catalogs.
-- TMDB metadata may not show up properly with the current stable Android app, but does work with the new beta version on Android
-- New releases, unreleased titles, and obscure international content may yield strange or no results.
-- Works best with default Stremio catalogs. Not compatible with other Stremio addons that generate custom catalogs and IDs.
+# 🔓 Sécurité
 
-# 🔓 Security
+- Chiffrement des données utilisateur : AES-256 GCM + PBKDF2
+- Clés API : Les clés API ne sont jamais stockées sur le serveur
 
-- User Data Encryption: AES-256 GCM encryption + PBKDF2
-- API Keys: API keys are never stored
+## 🙏 Remerciements & Crédits
 
-## 🙏 Credits
-
-W Suggest is a fork of [More Like This](https://github.com/rama1997/More-Like-This) by [rama1997](https://github.com/rama1997), released under the MIT license.
+W Suggest est un fork de [More Like This](https://github.com/rama1997/More-Like-This) créé par [rama1997](https://github.com/rama1997), publié sous licence MIT.
