@@ -244,15 +244,48 @@ async function loadSummary() {
 		document.getElementById("envPort").textContent = data.environment.port;
 		document.getElementById("envLogging").textContent = data.environment.loggingEnabled ? "Activé" : "Désactivé";
 		document.getElementById("envEncryption").textContent = data.environment.encryptionEnabled ? "Chiffré" : "Non chiffré";
-		document.getElementById("envCacheType").textContent = data.cache.backend || (data.cache.useRedis ? "Redis" : "SQLite");
+		document.getElementById("envCacheType").textContent = data.cache.backend || "SQLite";
 		document.getElementById("envNodeVer").textContent = data.system.nodeVersion;
 		document.getElementById("envGeminiModel").textContent = data.environment.geminiModel || "gemini-2.5-flash-lite";
+
+		// Jauges des indicateurs
+		const ratio = parseFloat(String(data.cache.hitRatio).replace(",", ".")) || 0;
+		setWidth("gaugeCache", ratio);
+		const heapTotal = Number(data.system.memory.heapTotalMB) || 0;
+		setWidth("gaugeMemory", heapTotal ? (Number(data.system.memory.heapUsedMB) / heapTotal) * 100 : 0);
+
+		// Réponses HTTP
+		renderStatusBar(data.traffic.statusCodes || {});
 
 		const lu = document.getElementById("lastUpdate");
 		if (lu) lu.textContent = `Mis à jour à ${new Date().toLocaleTimeString("fr-FR")}`;
 	} catch (err) {
 		console.error("Error loading summary:", err);
 	}
+}
+
+function setWidth(id, pct) {
+	const el = document.getElementById(id);
+	if (el) el.style.width = `${Math.max(0, Math.min(100, Math.round(pct)))}%`;
+}
+
+function renderStatusBar(codes) {
+	const groups = ["2xx", "3xx", "4xx", "5xx"];
+	const total = groups.reduce((n, g) => n + (Number(codes[g]) || 0), 0);
+	groups.forEach((g) => {
+		const el = document.getElementById(`st-${g}`);
+		if (el) el.textContent = (Number(codes[g]) || 0).toLocaleString("fr-FR");
+	});
+	const bar = document.getElementById("statusBar");
+	const meta = document.getElementById("statusTotal");
+	if (meta) meta.textContent = total ? `${total.toLocaleString("fr-FR")} réponses` : "";
+	if (!bar) return;
+	bar.innerHTML = total
+		? groups
+				.filter((g) => Number(codes[g]) > 0)
+				.map((g) => `<i class="s${g[0]}" style="flex:${Number(codes[g])}" title="${g} : ${Number(codes[g])}"></i>`)
+				.join("")
+		: `<i class="none" style="flex:1"></i>`;
 }
 
 function updateBar(key, count, total) {
@@ -331,7 +364,18 @@ async function loadCacheDetails() {
 		document.getElementById("cacheDetailSets").textContent = data.sets;
 		document.getElementById("cacheDetailRatio").textContent = data.hitRatio;
 		document.getElementById("cacheDetailSize").textContent = `${data.localSize} / ${data.maxLocalSize}`;
-		document.getElementById("cacheDetailBackend").textContent = data.backend || (data.useRedis ? "Redis" : "SQLite");
+		document.getElementById("cacheDetailBackend").textContent = data.backend || "SQLite";
+
+		const pathEl = document.getElementById("cacheDetailPath");
+		if (pathEl) pathEl.textContent = data.sqlitePath || "—";
+
+		const totalLookups = (Number(data.hits) || 0) + (Number(data.misses) || 0);
+		const hitPct = totalLookups ? (Number(data.hits) / totalLookups) * 100 : 0;
+		const C = 2 * Math.PI * 48;
+		const arc = document.getElementById("donutHit");
+		if (arc) arc.setAttribute("stroke-dasharray", `${(hitPct / 100) * C} ${C}`);
+		const dv = document.getElementById("donutValue");
+		if (dv) dv.textContent = totalLookups ? `${Math.round(hitPct)}%` : "—";
 
 		const keysContainer = document.getElementById("cacheRecentKeys");
 		if (keysContainer) {

@@ -67,11 +67,13 @@
 			<div class="kpi-card">
 				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-zap"/></svg>Taux de cache</div>
 				<span class="kpi-value" id="valCacheHitRatio">0%</span>
+				<div class="gauge"><i id="gaugeCache" style="width:0%"></i></div>
 				<span class="kpi-sub" id="valCacheSub">0 succès / 0 échecs</span>
 			</div>
 			<div class="kpi-card">
 				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-cpu"/></svg>Mémoire (heap)</div>
 				<span class="kpi-value" id="valMemory">-- Mo</span>
+				<div class="gauge"><i id="gaugeMemory" style="width:0%"></i></div>
 				<span class="kpi-sub" id="valMemorySub">RSS : -- Mo</span>
 			</div>
 		</div>
@@ -126,6 +128,17 @@
 					<div class="kv"><span>Modèle Gemini</span><strong id="envGeminiModel">gemini-2.5-flash-lite</strong></div>
 				</div>
 			</div>
+
+			<div class="card-panel" style="margin-top: 24px;">
+				<div class="panel-header"><div class="panel-title">Réponses HTTP</div><span class="panel-meta" id="statusTotal"></span></div>
+				<div class="segbar" id="statusBar"></div>
+				<div class="legend" id="statusLegend">
+					<span><i class="dot s2"></i>Succès (2xx) <b id="st-2xx">0</b></span>
+					<span><i class="dot s3"></i>Redirections (3xx) <b id="st-3xx">0</b></span>
+					<span><i class="dot s4"></i>Erreurs client (4xx) <b id="st-4xx">0</b></span>
+					<span><i class="dot s5"></i>Erreurs serveur (5xx) <b id="st-5xx">0</b></span>
+				</div>
+			</div>
 		</section>
 
 		<!-- Trafic -->
@@ -164,12 +177,20 @@
 						<div class="panel-title">Statistiques du cache</div>
 						<button class="btn-action btn-danger" id="clearCacheBtn"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>Vider le cache</button>
 					</div>
+					<div class="donut-wrap">
+						<svg class="donut" viewBox="0 0 120 120" role="img" aria-label="Répartition succès et échecs du cache">
+							<circle class="donut-track" cx="60" cy="60" r="48"/>
+							<circle class="donut-hit" id="donutHit" cx="60" cy="60" r="48" stroke-dasharray="0 301.6"/>
+						</svg>
+						<div class="donut-center"><strong id="donutValue">0%</strong><span>de succès</span></div>
+					</div>
 					<div class="kv"><span>Succès (lu depuis le cache)</span><strong id="cacheDetailHits">0</strong></div>
 					<div class="kv"><span>Échecs (appels aux API)</span><strong id="cacheDetailMisses">0</strong></div>
 					<div class="kv"><span>Mises en cache effectuées</span><strong id="cacheDetailSets">0</strong></div>
 					<div class="kv"><span>Taux de succès</span><strong id="cacheDetailRatio">0%</strong></div>
 					<div class="kv"><span>Entrées en mémoire / limite</span><strong id="cacheDetailSize">0 / 3000</strong></div>
-					<div class="kv"><span>Moteur actif</span><strong id="cacheDetailBackend">Mémoire locale</strong></div>
+					<div class="kv"><span>Moteur</span><strong id="cacheDetailBackend">SQLite</strong></div>
+					<div class="kv"><span>Fichier de la base</span><strong class="mono" id="cacheDetailPath">--</strong></div>
 				</div>
 
 				<div class="card-panel">
@@ -248,12 +269,14 @@
 						<thead><tr><th>Variable</th><th>Description</th><th>Valeur par défaut</th></tr></thead>
 						<tbody>
 							<tr><td><code>DASHBOARD_PASSWORD</code></td><td>Mot de passe protégeant l’accès au tableau de bord</td><td><em>Obligatoire</em></td></tr>
+							<tr><td><code>DASHBOARD_SESSION_SECRET</code></td><td>Secret qui signe la session de connexion au tableau de bord</td><td><em>Reprend <code>ENCRYPTION_KEY</code></em></td></tr>
 							<tr><td><code>PORT</code></td><td>Port d’écoute du serveur HTTP Express</td><td><code>8080</code></td></tr>
 							<tr><td><code>ENABLE_LOGGING</code></td><td>Active l’écriture des journaux dans <code>logs/</code></td><td><code>false</code></td></tr>
 							<tr><td><code>ENCRYPTION_KEY</code></td><td>Clé secrète qui chiffre les clés API des utilisateurs dans les URL Stremio</td><td><em>Facultatif</em></td></tr>
+							<tr><td><code>SQLITE_PATH</code></td><td>Emplacement du fichier SQLite qui sert de cache</td><td><code>data/cache.sqlite</code></td></tr>
 							<tr><td><code>CACHE_TTL</code></td><td>Durée de vie du cache, en secondes</td><td><code>259200</code> (3 jours)</td></tr>
-							<tr><td><code>CACHE_MAX_SIZE</code></td><td>Nombre maximal d’éléments dans le cache local</td><td><code>3000</code></td></tr>
-							<tr><td><code>REDIS_URL</code></td><td>URL de connexion à Redis pour un cache externe</td><td><em>Désactivé (cache local)</em></td></tr>
+							<tr><td><code>CACHE_MAX_SIZE</code></td><td>Nombre maximal d’entrées dans le cache</td><td><code>3000</code></td></tr>
+							<tr><td><code>GEMINI_MAX_RESULT</code></td><td>Nombre de recommandations demandées à Gemini</td><td><code>20</code></td></tr>
 						</tbody>
 					</table>
 				</div>
