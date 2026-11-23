@@ -19,7 +19,7 @@ jobs:
         uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
-          package-name: "more-like-this"
+          package-name: "w-suggest"
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger Docker Image Publish

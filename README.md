@@ -1,30 +1,30 @@
 <p align="center">
-  <img src="https://i.imgur.com/DHKJ7dT.png" alt="More Like This Logo" width="150" />
+  <img src="https://i.imgur.com/DHKJ7dT.png" alt="W Suggest Logo" width="150" />
 </p>
 
-<h1 align="center">More Like This</h1>
+<h1 align="center">W Suggest</h1>
 
 <div align="center">
 
-  <a href="https://github.com/rama1997/More-Like-This">
+  <a href="https://github.com/Wallacecleaver/W-Suggest">
       <img src="https://img.shields.io/badge/status-active-brightgreen?logo=github" alt="Status">
   </a>
-  <a href="https://github.com/rama1997/More-Like-This/releases">
-      <img src="https://img.shields.io/github/v/tag/rama1997/More-Like-This?logo=github" alt="Latest Release">
+  <a href="https://github.com/Wallacecleaver/W-Suggest/releases">
+      <img src="https://img.shields.io/github/v/tag/Wallacecleaver/W-Suggest?logo=github" alt="Latest Release">
   </a>
-  <a href="https://github.com/rama1997/More-Like-This/stargazers">
-      <img src="https://img.shields.io/github/stars/rama1997/More-Like-This?style=flat&logo=github" alt="GitHub Stars">
+  <a href="https://github.com/Wallacecleaver/W-Suggest/stargazers">
+      <img src="https://img.shields.io/github/stars/Wallacecleaver/W-Suggest?style=flat&logo=github" alt="GitHub Stars">
   </a>
-  <a href="https://github.com/rama1997/More-Like-This/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/rama1997/More-Like-This" alt="License">
+  <a href="https://github.com/Wallacecleaver/W-Suggest/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/Wallacecleaver/W-Suggest" alt="License">
   </a>
 
 </div>
 <br></br>
 
-# ✨ What is More Like This?
+# ✨ What is W Suggest?
 
-**More Like This** is a Stremio addon that fetches similar movie and TV show recommendations from multiple sources, all in one place.
+**W Suggest** is a Stremio addon that fetches similar movie and TV show recommendations from multiple sources, all in one place.
 
 <p align="center">
   <img src="https://i.imgur.com/BW9xWHU.jpeg" alt="example1" width="700" />
@@ -58,8 +58,7 @@
 
 # 🚀 Installation
 
-Install the addon directly from:  
-➡️ [https://bbab4a35b833-more-like-this.baby-beamup.club/configure](https://bbab4a35b833-more-like-this.baby-beamup.club/configure)
+Self-host the addon (see below), then open its `/configure` page to install it in Stremio.
 
 You’ll need API keys for the sources you wish to use. For example, if you want only TMDB recommendations, you only need a TMDB API key.
 Links to obtain free API keys are available on the addon’s configuration page.
@@ -69,13 +68,13 @@ Links to obtain free API keys are available on the addon’s configuration page.
 You can use a prebuilt images from Docker Hub:
 
 ```bash
-docker pull raymadev/more-like-this-stremio-addon
+docker pull wallacecleaver/w-suggest
 ```
 
 Or clone this repo:
 
 ```bash
-git clone https://github.com/rama1997/More-Like-This.git
+git clone https://github.com/Wallacecleaver/W-Suggest.git
 ```
 
 ### Docker CLI
@@ -83,19 +82,19 @@ git clone https://github.com/rama1997/More-Like-This.git
 1. Build Docker Image
 
 ```bash
-docker build -t more-like-this .
+docker build -t w-suggest .
 ```
 
 2. Run Docker Container
 
 ```bash
-docker run -p 8080:3000 more-like-this
+docker run -p 8080:3000 w-suggest
 ```
 
 Can adjust addon via a `.env` file. See below for environment variables.
 
 ```bash
-docker run -p 8080:3000 --env-file .env more-like-this
+docker run -p 8080:3000 --env-file .env w-suggest
 ```
 
 3. Access the addon's configure page at `localhost:8080`.
@@ -115,11 +114,11 @@ docker compose up -d
 1. Clone the project repository and set it as the current directory
 
 ```bash
-git clone https://github.com/rama1997/More-Like-This.git
+git clone https://github.com/Wallacecleaver/W-Suggest.git
 ```
 
 ```bash
-cd More-Like-This
+cd W-Suggest
 ```
 
 2. Create your local environment config by copying the environment example file:
@@ -258,8 +257,6 @@ This addon is still a work in progress. While it works well in many scenarios, s
 - User Data Encryption: AES-256 GCM encryption + PBKDF2
 - API Keys: API keys are never stored
 
-## ❤️ Support the Project
+## 🙏 Credits
 
-If you find this project useful and would like to support its development, you can make a small donation here:
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/raymadev)
+W Suggest is a fork of [More Like This](https://github.com/rama1997/More-Like-This) by [rama1997](https://github.com/rama1997), released under the MIT license.

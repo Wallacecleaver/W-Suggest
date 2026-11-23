@@ -28,7 +28,7 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
 			}
 
 			const detailButton = {
-				name: "More Like This",
+				name: "W Suggest",
 				description: `See details`,
 				externalUrl: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + detailURL,
 			};
@@ -36,7 +36,7 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
 			stream.push(detailButton);
 		} else if (button === "app" && enabledStreamButtons.app) {
 			const appSearchButton = {
-				name: "More Like This",
+				name: "W Suggest",
 				description: `Search on App`,
 				externalUrl: `stremio:///search?search=${searchId}`,
 			};
@@ -44,7 +44,7 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
 			stream.push(appSearchButton);
 		} else if (button === "web" && enabledStreamButtons.web) {
 			const webSearchButton = {
-				name: "More Like This",
+				name: "W Suggest",
 				description: `Search on Web`,
 				externalUrl: `https://web.stremio.com/#/search?search=${searchId}`,
 			};
@@ -52,7 +52,7 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource) {
 			stream.push(webSearchButton);
 		} else if (button === "recs" && enabledStreamButtons.recs) {
 			const recsButton = {
-				name: "More Like This",
+				name: "W Suggest",
 				description: `Show similar movies/shows`,
 				externalUrl: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + `/detail/${type}/mlt-rec-${searchId}`,
 			};

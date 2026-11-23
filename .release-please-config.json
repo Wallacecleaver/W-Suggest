@@ -2,7 +2,7 @@
 	"release-type": "node",
 	"packages": {
 		".": {
-			"package-name": "more-like-this"
+			"package-name": "w-suggest"
 		}
 	}
 }

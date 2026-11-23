@@ -95,7 +95,7 @@ async function generateManifest(apiKeys, combine, catalog_order) {
 	}
 
 	const manifest = {
-		id: "community.morelikethis",
+		id: "community.wsuggest",
 		version: packageJson.version,
 		resources: [
 			"catalog",
@@ -107,7 +107,7 @@ async function generateManifest(apiKeys, combine, catalog_order) {
 			},
 		],
 		types: ["movie", "series"],
-		name: "More Like This",
+		name: "W Suggest",
 		description: "Shows recommendations from various sources",
 		logo: "https://i.imgur.com/DHKJ7dT.png",
 		idPrefixes: [""],
@@ -268,7 +268,7 @@ async function startServer() {
 
 			// Build manifest URL and redirect
 			let host = req.headers.host;
-			if (host === "bbab4a35b833-more-like-this") {
+			if (host === "w-suggest") {
 				host = host + ".baby-beamup.club";
 			}
 

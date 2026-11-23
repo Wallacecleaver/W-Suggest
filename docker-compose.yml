@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  more-like-this:
+  w-suggest:
     build: .
     ports:
       - "${PORT:-8080}:${PORT:-8080}"

@@ -1,8 +1,8 @@
 {
-	"name": "more-like-this",
+	"name": "w-suggest",
 	"version": "0.12.1",
 	"description": "Shows recommendations for movies and series",
-	"author": "rama1997",
+	"author": "Wallacecleaver",
 	"license": "ISC",
 	"main": "addon.js",
 	"scripts": {},
