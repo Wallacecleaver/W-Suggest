@@ -269,6 +269,13 @@ async function startServer() {
 	});
 
 	app.post("/saveConfig", async (req, res) => {
+		const nickname = typeof req.body?.nickname === "string" ? req.body.nickname.trim() : "";
+		if (nickname.length < 2 || nickname.length > 32 || /[\u0000-\u001f\u007f-\u009f]/.test(nickname)) {
+			const error = "Saisis un pseudo de 2 à 32 caractères.";
+			if (req.body?.forCopy === "true") return res.status(400).json({ error });
+			return res.status(400).send(error);
+		}
+
 		try {
 			// Build API Keys object
 			const sources = ["tmdb", "trakt", "tastedive", "gemini", "watchmode", "simkl", "rpdb"];
@@ -286,6 +293,7 @@ async function startServer() {
 
 			// Get user config
 			const config = {
+				nickname,
 				apiKeys: apiKeys,
 				combineCatalogs: req.body.combineCatalogs === "on" || false,
 				catalogOrder: req.body.catalogOrder.split(",") || ["tmdb", "trakt", "simkl", "gemini", "tasteDive", "watchmode"],

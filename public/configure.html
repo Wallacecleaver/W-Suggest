@@ -9,7 +9,7 @@
 		<link rel="apple-touch-icon" href="/logo.png" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Outfit:wght@700&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
@@ -21,6 +21,7 @@
 						<span>W Suggest</span>
 					</div>
 					<nav class="config-nav" aria-label="Sections de configuration">
+						<a href="#profile">Profil</a>
 						<a href="#sources">Sources</a>
 						<a href="#catalogues">Catalogues</a>
 						<a href="#preferences">Préférences</a>
@@ -34,6 +35,20 @@
 					<p>Choisis tes sources de recommandations pour Stremio. Une seule clé API suffit pour commencer.</p>
 				</header>
 				<form id="configForm" action="/saveConfig" method="POST">
+					<section class="panel profile-panel" id="profile">
+						<div class="profile-copy">
+							<h2 class="section-header">Ton profil</h2>
+							<p>Le pseudo identifie ta configuration. Tu peux le modifier à tout moment.</p>
+						</div>
+						<div class="profile-field">
+							<div class="field-head">
+								<label for="nickname">Pseudo</label>
+								<span class="required-note">Obligatoire</span>
+							</div>
+							<input type="text" id="nickname" name="nickname" placeholder="Ex. CinéFan" required minlength="2" maxlength="32" autocomplete="nickname" aria-describedby="nicknameHint" />
+							<p class="row-hint" id="nicknameHint">2 à 32 caractères.</p>
+						</div>
+					</section>
 					<section class="panel" id="sources">
 						<header class="panel-head">
 							<h2 class="section-header">Sources de recommandations</h2>

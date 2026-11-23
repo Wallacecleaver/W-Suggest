@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 	if (window.userConfig) {
 		const config = window.userConfig;
+		const nicknameInput = document.getElementById("nickname");
+		if (nicknameInput && typeof config.nickname === "string") nicknameInput.value = config.nickname;
 
 		// Populate API key inputs
 		if (config.apiKeys) {
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 
 		const includeTmdbCollectionCheckbox = document.getElementById("includeTmdbCollection");
-		if (includeTmdbCollection) {
+		if (includeTmdbCollectionCheckbox) {
 			if (config.includeTmdbCollection) {
 				includeTmdbCollectionCheckbox.checked = true;
 			}

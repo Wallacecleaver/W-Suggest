@@ -1,24 +1,35 @@
 // Set behavior of the installation buttons
 document.addEventListener("DOMContentLoaded", () => {
 	const forCopyInput = document.getElementById("forCopy");
-	const installBtn = document.getElementById("installBtn");
+	const form = document.getElementById("configForm");
+	const nicknameInput = document.getElementById("nickname");
 	const copyManifestBtn = document.getElementById("copyManifestBtn");
 
-	installBtn.addEventListener("click", function () {
+	nicknameInput.addEventListener("input", () => nicknameInput.setCustomValidity(""));
+
+	function validateForm() {
+		const nickname = nicknameInput.value.trim();
+		const validNickname = nickname.length >= 2 && nickname.length <= 32 && !/[\u0000-\u001f\u007f-\u009f]/.test(nickname);
+		nicknameInput.value = nickname;
+		nicknameInput.setCustomValidity(validNickname ? "" : "Saisis un pseudo de 2 à 32 caractères.");
+		if (!form.reportValidity()) return false;
+
+		if (validateApiKeys()) return true;
+		alert("Vérifie toutes les clés API saisies avant de continuer.");
+		return false;
+	}
+
+	form.addEventListener("submit", (event) => {
 		forCopyInput.value = "false";
+		if (!validateForm()) event.preventDefault();
 	});
 
 	copyManifestBtn.addEventListener("click", async function (e) {
 		e.preventDefault(); // stop form submission
 
-		if (!validateApiKeys()) {
-			alert("Vérifie toutes les clés API saisies avant de continuer.");
-			return;
-		}
+		if (!validateForm()) return;
 
 		forCopyInput.value = "true";
-
-		const form = document.querySelector("form");
 		const formData = new FormData(form);
 
 		// Convert to plain object
@@ -34,9 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				body: JSON.stringify(plainData),
 			});
 
-			if (!response.ok) throw new Error("Échec de l’enregistrement de la configuration");
-
 			const data = await response.json();
+			if (!response.ok) {
+				alert(data.error || "Impossible de copier le lien d’installation. Réessaie.");
+				return;
+			}
 			if (data.manifestUrl) {
 				// Show manifest URL box
 				const manifestBox = document.getElementById("manifestUrlBox");
@@ -55,13 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			alert("Impossible de copier l’URL du manifest. Réessaie.");
 		}
 	});
-});
-
-document.querySelector("form").addEventListener("submit", function (e) {
-	if (!validateApiKeys()) {
-		e.preventDefault();
-		alert("Vérifie toutes les clés API saisies avant de continuer.");
-	}
 });
 
 // Function to make sure all inputed API Keys are validated first before submiting form
