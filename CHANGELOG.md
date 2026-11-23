@@ -1,0 +1,148 @@
+# Changelog
+
+## [0.12.1](https://github.com/rama1997/More-Like-This/compare/v0.12.0...v0.12.1) (2026-08-08)
+
+
+### Bug Fixes
+
+* synchronize addon manifest version ([f8a57b5](https://github.com/rama1997/More-Like-This/commit/f8a57b53690d7830483420b00506842aa7c2ff97))
+
+## [0.12.0](https://github.com/rama1997/More-Like-This/compare/v0.11.6...v0.12.0) (2026-08-08)
+
+
+### Features
+
+* update recs overview to show media description first ([c7ac440](https://github.com/rama1997/More-Like-This/commit/c7ac440d0b4f537d8e4a29cb929d492a2ec014f9))
+
+
+### Bug Fixes
+
+* manifest url generation better supports local hosting ([cbd0411](https://github.com/rama1997/More-Like-This/commit/cbd0411f1180124d833227f2d4905c66b975bbf7))
+* update Gemini API integration ([f14971e](https://github.com/rama1997/More-Like-This/commit/f14971eaa3d2e7ea40cc66c155f47afe14f95a9d))
+* update Trakt API to include correct user-agent ([6b6fd12](https://github.com/rama1997/More-Like-This/commit/6b6fd12a4ba46948765a2d3c0e14c0f11135c3ef))
+
+## [0.11.6](https://github.com/rama1997/More-Like-This/compare/v0.11.5...v0.11.6) (2026-02-08)
+
+
+### Bug Fixes
+
+* missing catalogSource in resolveSearchInput ([f12ca70](https://github.com/rama1997/More-Like-This/commit/f12ca700309fe75d47b8c6d46c1f3e58905b77a7))
+
+## [0.11.5](https://github.com/rama1997/More-Like-This/compare/v0.11.4...v0.11.5) (2026-01-27)
+
+
+### Bug Fixes
+
+* add guard for user config json parsing ([7530f3b](https://github.com/rama1997/More-Like-This/commit/7530f3bacb7ecdd00676422f41e6671a8136f36d))
+
+## [0.11.4](https://github.com/rama1997/More-Like-This/compare/v0.11.3...v0.11.4) (2025-12-23)
+
+
+### Bug Fixes
+
+* switch from gemini 2.0 to gemini 2.5 ([8f028e7](https://github.com/rama1997/More-Like-This/commit/8f028e7845532d9157c51a28cd9df1310046a3ed))
+
+## [0.11.3](https://github.com/rama1997/More-Like-This/compare/v0.11.2...v0.11.3) (2025-12-07)
+
+
+### Bug Fixes
+
+* correct manifest url for copy ([2c2d436](https://github.com/rama1997/More-Like-This/commit/2c2d43685f51aa56563c090ee0e55a9ba23a49d4))
+
+## [0.11.2](https://github.com/rama1997/More-Like-This/compare/v0.11.1...v0.11.2) (2025-11-29)
+
+
+### Bug Fixes
+
+* manfiest url box appears even when coping to clipboard fails ([1ab915e](https://github.com/rama1997/More-Like-This/commit/1ab915e977dcfe7971822196251837de8152cd34))
+
+## [0.11.1](https://github.com/rama1997/More-Like-This/compare/v0.11.0...v0.11.1) (2025-11-22)
+
+
+### Bug Fixes
+
+* bump manifest to v0.11.1 ([a82dc56](https://github.com/rama1997/More-Like-This/commit/a82dc5630eb01b787fca1c229db3fd6a6af6f70e))
+
+## [0.11.0](https://github.com/rama1997/More-Like-This/compare/v0.10.0...v0.11.0) (2025-11-22)
+
+
+### Features
+
+* add support for user-provided API key after Simkl API changes ([5e0e77a](https://github.com/rama1997/More-Like-This/commit/5e0e77a25b9ddb9fb432c54f6150a5c1ac35931e))
+* include TMDB ratings in metadata ([972fca1](https://github.com/rama1997/More-Like-This/commit/972fca123ed42222149d7a280ccee7853f616ca3))
+
+
+### Bug Fixes
+
+* add apiKey check to guard clause ([113b065](https://github.com/rama1997/More-Like-This/commit/113b06584832fa184a3e9c757f22a6ff1b4b7407))
+* set recs shown from stream button to 20 ([d650b95](https://github.com/rama1997/More-Like-This/commit/d650b951c096d5c1664e752c64f2078c337ef1dc))
+* validate API keys when using Copy Manifest button ([2d5a1c5](https://github.com/rama1997/More-Like-This/commit/2d5a1c5b1eac0d89c6bb47412ab0a3b18c9bfa04))
+
+## [0.10.0](https://github.com/rama1997/More-Like-This/compare/v0.9.0...v0.10.0) (2025-10-22)
+
+
+### Features
+
+* add base metadata to meta previews for future use ([1b900dc](https://github.com/rama1997/More-Like-This/commit/1b900dc9c26bc50c91e62fec250c298957e80f6a))
+
+## [0.9.0](https://github.com/rama1997/More-Like-This/compare/v0.8.5...v0.9.0) (2025-10-17)
+
+
+### Features
+
+* display manifest URL below copy button for manual copying ([294a7c4](https://github.com/rama1997/More-Like-This/commit/294a7c45fa1db446c4f1dac3da16187590c2a9b3))
+
+## [0.8.5](https://github.com/rama1997/More-Like-This/compare/v0.8.4...v0.8.5) (2025-10-09)
+
+
+### Bug Fixes
+
+* correct yml name for docker release workflow ([2fc99f8](https://github.com/rama1997/More-Like-This/commit/2fc99f88306926aa16c1118ab20ebefc607bfb52))
+
+## [0.8.4](https://github.com/rama1997/More-Like-This/compare/v0.8.3...v0.8.4) (2025-10-09)
+
+
+### Bug Fixes
+
+* change release-please version to v3 ([2da9af8](https://github.com/rama1997/More-Like-This/commit/2da9af842181a2324edc1eed117e1d3e14f79718))
+* release workflow triggers now uses gh cli ([63887f5](https://github.com/rama1997/More-Like-This/commit/63887f51f4362681af460d994945cef6f2ad4307))
+
+## [0.8.3](https://github.com/rama1997/More-Like-This/compare/v0.8.2...v0.8.3) (2025-10-09)
+
+
+### Bug Fixes
+
+* fix workflow trigger ([a0dccd7](https://github.com/rama1997/More-Like-This/commit/a0dccd7f896962b2f40ea209c951c9a1bccbc5d8))
+
+## [0.8.2](https://github.com/rama1997/More-Like-This/compare/v0.8.1...v0.8.2) (2025-10-09)
+
+
+### Bug Fixes
+
+* auto-run Docker workflow after release-please ([93e97d1](https://github.com/rama1997/More-Like-This/commit/93e97d1ea5b4caf63495c1c962684c6a0d345e53))
+* update peter-evans/repository-dispatch@v4 ([f70c3f8](https://github.com/rama1997/More-Like-This/commit/f70c3f84e5b1b91afecbee6aa5f2f1bdef639e19))
+
+## [0.8.1](https://github.com/rama1997/More-Like-This/compare/v0.8.0...v0.8.1) (2025-10-09)
+
+
+### Bug Fixes
+
+* trigger Docker release on tag push ([f00bc85](https://github.com/rama1997/More-Like-This/commit/f00bc858f4fc342d65ab6f5d9bde156ff4678561))
+
+## [0.8.0](https://github.com/rama1997/More-Like-This/compare/v0.7.7...v0.8.0) (2025-10-06)
+
+
+### Features
+
+* add release-please files ([8936bec](https://github.com/rama1997/More-Like-This/commit/8936bec1aee502a95cc8804acd4eb6c38c42a496))
+* improve logic for titleToImdb based on metadata source ([12c7b22](https://github.com/rama1997/More-Like-This/commit/12c7b2297b0bee5747f2e35d79ec60a3196899c7))
+* include the poster as background for meta previews ([74ba739](https://github.com/rama1997/More-Like-This/commit/74ba73980982192ce11a4e6174bd046bdfd75322))
+* use gemini model `gemini-2.5-flash-lite` ([ca79750](https://github.com/rama1997/More-Like-This/commit/ca797505e7a1711bb84e56b6aa110c4c59b67e54))
+
+
+### Bug Fixes
+
+* correct initial version in release-please ([247862c](https://github.com/rama1997/More-Like-This/commit/247862c3c3d67b6a163ae83ec7dcf6d1b9451e13))
+* properly uses tmdb as a source for title to imdb Id conversion ([6d00c6e](https://github.com/rama1997/More-Like-This/commit/6d00c6e4479335d4af543e66edbae63aa820f6d1))
+* remove action from release-please permission ([99924dd](https://github.com/rama1997/More-Like-This/commit/99924ddd6d3df87b5b84ce2e9b050fa94e497f7a))
+* update permission for release-please ([00a33dc](https://github.com/rama1997/More-Like-This/commit/00a33dcf6a64782ae703834b61233bb22ba8d8b6))
