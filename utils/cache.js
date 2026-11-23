@@ -6,6 +6,12 @@ let redisCache = null;
 let useRedis = false;
 const localCache = new Map();
 
+const cacheStats = {
+	hits: 0,
+	misses: 0,
+	sets: 0,
+};
+
 if (REDIS_URL) {
 	redisCache = new Redis(REDIS_URL);
 	useRedis = true;
@@ -36,19 +42,28 @@ async function getCache(key) {
 				const expired = Date.now() - cached.lastUpdated > CACHE_TTL;
 
 				if (cached && !expired) {
+					cacheStats.hits++;
 					logger.cache("RETRIEVED CACHE", key);
 					return cached.data;
 				} else {
+					cacheStats.misses++;
 					localCache.delete(key);
 					return null;
 				}
+			} else {
+				cacheStats.misses++;
 			}
 		} else if (useRedis && redisCache) {
 			const cached = await redisCache.get(key);
 			if (cached) {
+				cacheStats.hits++;
 				logger.cache("RETRIEVED CACHE", key);
 				return JSON.parse(cached);
+			} else {
+				cacheStats.misses++;
 			}
+		} else {
+			cacheStats.misses++;
 		}
 		return null;
 	} catch (err) {
@@ -66,6 +81,7 @@ async function setCache(key, data) {
 	if (!key) return;
 
 	try {
+		cacheStats.sets++;
 		// Use local cache for meta or if Redis is not set up
 		if (key.startsWith("meta") || !useRedis || !redisCache) {
 			// If cache size exceeds max limit, remove the oldest entry
@@ -124,6 +140,54 @@ async function createRecCacheKey(imdbId, type, recSource) {
 	return `recs:${imdbId}:${type}:${recSource}`;
 }
 
+async function getCacheStats() {
+	let redisStats = null;
+	if (useRedis && redisCache) {
+		try {
+			const info = await redisCache.info("stats");
+			const dbsize = await redisCache.dbsize();
+			redisStats = {
+				status: redisCache.status,
+				keys: dbsize,
+				info: info ? info.slice(0, 300) : null,
+			};
+		} catch (e) {
+			redisStats = { status: "error", error: e.message };
+		}
+	}
+
+	return {
+		hits: cacheStats.hits,
+		misses: cacheStats.misses,
+		sets: cacheStats.sets,
+		hitRatio:
+			cacheStats.hits + cacheStats.misses > 0
+				? ((cacheStats.hits / (cacheStats.hits + cacheStats.misses)) * 100).toFixed(1) + "%"
+				: "0%",
+		localSize: localCache.size,
+		maxLocalSize: MAX_CACHE_SIZE,
+		useRedis: Boolean(useRedis),
+		redisStats,
+		recentKeys: Array.from(localCache.keys()).slice(-20),
+	};
+}
+
+async function clearAllCache() {
+	localCache.clear();
+	cacheStats.hits = 0;
+	cacheStats.misses = 0;
+	cacheStats.sets = 0;
+
+	if (useRedis && redisCache) {
+		try {
+			await redisCache.flushdb();
+		} catch (e) {
+			logger.error("Failed to flush redis cache", e);
+		}
+	}
+	return { success: true, message: "Cache cleared" };
+}
+
 module.exports = {
 	getCache,
 	setCache,
@@ -131,4 +195,6 @@ module.exports = {
 	createCatalogCacheKey,
 	createMetaCacheKey,
 	createRecCacheKey,
+	getCacheStats,
+	clearAllCache,
 };

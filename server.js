@@ -10,6 +10,8 @@ const logger = require("./utils/logger");
 const { PORT, ENCRYPTION_KEY_INPUT } = require("./config");
 const { validateApiKeys } = require("./services/api");
 const { encryptData, decryptData } = require("./utils/encryption");
+const { metricsMiddleware } = require("./src/dashboard/metrics");
+const dashboardRouter = require("./src/dashboard/routes");
 const packageJson = require("./package.json");
 
 async function loadUserConfig(config) {
@@ -135,6 +137,11 @@ async function startServer() {
 	app.use(express.json()); // Middleware to parse JSON bodies
 
 	app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+
+	app.use(metricsMiddleware); // Dashboard & traffic metrics tracker
+
+	// Dashboard routes
+	app.use("/dashboard", dashboardRouter);
 
 	app.use(express.static(path.join(__dirname, "public"))); // Serve static files
 
@@ -302,7 +309,11 @@ async function startServer() {
 		}
 	});
 
-	app.listen(PORT, () => {});
+	app.listen(PORT, () => {
+		console.log(`W-Suggest running on port ${PORT}`);
+		console.log(`Configure: http://localhost:${PORT}/configure`);
+		console.log(`Dashboard: http://localhost:${PORT}/dashboard`);
+	});
 }
 
 startServer();

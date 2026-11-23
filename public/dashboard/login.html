@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>W-Suggest - Connexion au Dashboard</title>
+	<link rel="icon" href="https://i.imgur.com/DHKJ7dT.png">
+	<style>
+		:root {
+			--bg-primary: #0a0e1a;
+			--bg-secondary: #1a1f2e;
+			--bg-card: #242938;
+			--text-primary: #ffffff;
+			--text-secondary: #8b92a9;
+			--accent-purple: #8b5cf6;
+			--accent-hover: #a78bfa;
+			--border-color: #2c3441;
+			--danger: #ef4444;
+		}
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			background: linear-gradient(135deg, var(--bg-primary) 0%, #0d1421 100%);
+			color: var(--text-primary);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+		}
+		.login-card {
+			background: var(--bg-secondary);
+			border: 1px solid var(--border-color);
+			border-radius: 20px;
+			max-width: 440px;
+			width: 100%;
+			padding: 40px;
+			text-align: center;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+			position: relative;
+			overflow: hidden;
+		}
+		.login-card::before {
+			content: "";
+			position: absolute;
+			top: -80px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 200px;
+			height: 200px;
+			background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
+			pointer-events: none;
+		}
+		.logo {
+			width: 76px;
+			height: 76px;
+			margin-bottom: 18px;
+			filter: drop-shadow(0 4px 14px rgba(139, 92, 246, 0.5));
+		}
+		h1 {
+			font-size: 24px;
+			font-weight: 700;
+			margin-bottom: 6px;
+		}
+		.subtitle {
+			color: var(--text-secondary);
+			font-size: 14px;
+			margin-bottom: 28px;
+		}
+		.form-group {
+			text-align: left;
+			margin-bottom: 20px;
+		}
+		label {
+			display: block;
+			font-size: 13px;
+			font-weight: 600;
+			margin-bottom: 8px;
+			color: var(--text-secondary);
+		}
+		.input-wrapper {
+			position: relative;
+		}
+		input[type="password"], input[type="text"] {
+			width: 100%;
+			padding: 14px 44px 14px 16px;
+			background: var(--bg-card);
+			border: 1px solid var(--border-color);
+			border-radius: 12px;
+			color: #fff;
+			font-size: 15px;
+			outline: none;
+			transition: border-color 0.2s, box-shadow 0.2s;
+		}
+		input:focus {
+			border-color: var(--accent-purple);
+			box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+		}
+		.toggle-btn {
+			position: absolute;
+			right: 12px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: none;
+			border: none;
+			color: var(--text-secondary);
+			cursor: pointer;
+			font-size: 16px;
+			padding: 4px;
+		}
+		.toggle-btn:hover {
+			color: #fff;
+		}
+		.btn-submit {
+			width: 100%;
+			padding: 14px;
+			background: var(--accent-purple);
+			color: #fff;
+			border: none;
+			border-radius: 12px;
+			font-size: 15px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: background 0.2s, transform 0.1s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+		}
+		.btn-submit:hover {
+			background: var(--accent-hover);
+		}
+		.btn-submit:active {
+			transform: scale(0.99);
+		}
+		.btn-submit:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+		.error-message {
+			display: none;
+			background: rgba(239, 68, 68, 0.15);
+			border: 1px solid rgba(239, 68, 68, 0.4);
+			color: #fca5a5;
+			padding: 12px;
+			border-radius: 10px;
+			font-size: 13px;
+			margin-bottom: 20px;
+			text-align: left;
+		}
+		.footer-links {
+			margin-top: 24px;
+			font-size: 13px;
+		}
+		.footer-links a {
+			color: var(--accent-hover);
+			text-decoration: none;
+			transition: opacity 0.2s;
+		}
+		.footer-links a:hover {
+			text-decoration: underline;
+		}
+		.spinner {
+			display: none;
+			width: 16px;
+			height: 16px;
+			border: 2px solid rgba(255,255,255,0.3);
+			border-top-color: #fff;
+			border-radius: 50%;
+			animation: spin 0.8s linear infinite;
+		}
+		@keyframes spin {
+			to { transform: rotate(360deg); }
+		}
+	</style>
+</head>
+<body>
+	<div class="login-card">
+		<img class="logo" src="https://i.imgur.com/DHKJ7dT.png" alt="W Suggest Logo">
+		<h1>W-Suggest Dashboard</h1>
+		<div class="subtitle">Espace d'administration et surveillance</div>
+
+		<div id="errorBox" class="error-message"></div>
+
+		<form id="loginForm">
+			<div class="form-group">
+				<label for="password">Mot de passe d'administration (.env)</label>
+				<div class="input-wrapper">
+					<input type="password" id="password" name="password" placeholder="Entrez le mot de passe" required autocomplete="current-password" autofocus>
+					<button type="button" class="toggle-btn" id="togglePassword" title="Afficher/Masquer">👁️</button>
+				</div>
+			</div>
+
+			<button type="submit" class="btn-submit" id="submitBtn">
+				<span class="spinner" id="spinner"></span>
+				<span id="btnText">Accéder au Dashboard</span>
+			</button>
+		</form>
+
+		<div class="footer-links">
+			<a href="/configure">← Retour à la configuration Stremio</a>
+		</div>
+	</div>
+
+	<script>
+		const form = document.getElementById("loginForm");
+		const passwordInput = document.getElementById("password");
+		const togglePassword = document.getElementById("togglePassword");
+		const errorBox = document.getElementById("errorBox");
+		const submitBtn = document.getElementById("submitBtn");
+		const spinner = document.getElementById("spinner");
+		const btnText = document.getElementById("btnText");
+
+		togglePassword.addEventListener("click", () => {
+			const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+			passwordInput.setAttribute("type", type);
+			togglePassword.textContent = type === "password" ? "👁️" : "🙈";
+		});
+
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			errorBox.style.display = "none";
+			submitBtn.disabled = true;
+			spinner.style.display = "inline-block";
+			btnText.textContent = "Vérification...";
+
+			try {
+				const response = await fetch("/dashboard/api/login", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ password: passwordInput.value })
+				});
+
+				const data = await response.json();
+
+				if (response.ok && data.success) {
+					btnText.textContent = "Connecté ! Redirection...";
+					window.location.href = "/dashboard";
+				} else {
+					errorBox.textContent = data.error || "Mot de passe invalide";
+					errorBox.style.display = "block";
+					passwordInput.focus();
+					passwordInput.select();
+				}
+			} catch (err) {
+				errorBox.textContent = "Erreur de connexion au serveur";
+				errorBox.style.display = "block";
+			} finally {
+				submitBtn.disabled = false;
+				spinner.style.display = "none";
+				btnText.textContent = "Accéder au Dashboard";
+			}
+		});
+	</script>
+</body>
+</html>

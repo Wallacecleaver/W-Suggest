@@ -4,6 +4,10 @@ require("dotenv").config();
 const ENABLE_LOGGING = process.env.ENABLE_LOGGING === "true" || false;
 const ENCRYPTION_KEY_INPUT = process.env.ENCRYPTION_KEY || null;
 
+// Dashboard Auth
+const DASHBOARD_PASSWORD = process.env.DASHBOARD_PASSWORD || null;
+const DASHBOARD_SESSION_SECRET = process.env.DASHBOARD_SESSION_SECRET || process.env.ENCRYPTION_KEY || "w-suggest-secret-dashboard-key";
+
 // Server
 const PORT = process.env.PORT || 8080;
 
@@ -71,4 +75,6 @@ module.exports = {
 	REDIS_HOST,
 	REDIS_PORT,
 	REDIS_DB,
+	DASHBOARD_PASSWORD,
+	DASHBOARD_SESSION_SECRET,
 };

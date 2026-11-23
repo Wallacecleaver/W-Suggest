@@ -145,17 +145,30 @@ npm start
 
 ## Environment Variables
 
-| Variable          | Description                                 | Default           |
-| ----------------- | ------------------------------------------- | ----------------- |
-| ENABLE_LOGGING    | Enable logging for dev                      | `false`           |
-| PORT              | Desired port that addon listens on          | `8080`            |
-| CACHE_TTL         | Cache TTL (seconds)                         | `259200` (3 Days) |
-| CACHE_MAX_SIZE    | Max size of cache                           | `3000`            |
-| GEMINI_MAX_RESULT | Max number of Gemini AI returns per catalog | `20`              |
-| REDIS_URL         | Redis URL                                   |
-| REDIS_HOST        | Redis host                                  |
-| REDIS_PORT        | Redis port                                  |
-| REDIS_DB          | Redis database index                        |
+| Variable           | Description                                    | Default           |
+| ------------------ | ---------------------------------------------- | ----------------- |
+| DASHBOARD_PASSWORD | Password required to access `/dashboard`       | *(Disabled if empty)* |
+| ENABLE_LOGGING     | Enable logging for dev                         | `false`           |
+| PORT               | Desired port that addon listens on             | `8080`            |
+| CACHE_TTL          | Cache TTL (seconds)                            | `259200` (3 Days) |
+| CACHE_MAX_SIZE     | Max size of cache                              | `3000`            |
+| GEMINI_MAX_RESULT  | Max number of Gemini AI returns per catalog    | `20`              |
+| REDIS_URL          | Redis URL                                      |
+| REDIS_HOST         | Redis host                                     |
+| REDIS_PORT         | Redis port                                     |
+| REDIS_DB           | Redis database index                           |
+
+## 📊 Admin Dashboard
+
+Access the built-in administration dashboard at `http://localhost:PORT/dashboard`.
+
+Features include:
+- **Authentication**: Secured with `DASHBOARD_PASSWORD` from `.env`.
+- **System & Traffic Metrics**: Uptime, memory usage, request counts, response time distributions.
+- **Cache Management**: Cache hit ratio, local/Redis statistics, and one-click cache purge.
+- **Log Viewer**: Live viewer and clearer for `app.log`, `error.log`, `cache.log`, and `emptyCatalog.log`.
+- **Provider Health Checks**: Real-time status for external services (Cinemeta, TMDB, Trakt, Simkl, Gemini, TasteDive, RPDB).
+- **Interactive API Key Tester**: Test any provider's API key directly from the dashboard.
 
 # Configuration
 

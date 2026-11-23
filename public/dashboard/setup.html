@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>W-Suggest - Configuration du Dashboard</title>
+	<link rel="icon" href="https://i.imgur.com/DHKJ7dT.png">
+	<style>
+		:root {
+			--bg-primary: #0a0e1a;
+			--bg-secondary: #1a1f2e;
+			--bg-card: #242938;
+			--text-primary: #ffffff;
+			--text-secondary: #8b92a9;
+			--accent-purple: #8b5cf6;
+			--accent-hover: #a78bfa;
+			--border-color: #2c3441;
+			--warning: #f59e0b;
+		}
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			background: linear-gradient(135deg, var(--bg-primary) 0%, #0d1421 100%);
+			color: var(--text-primary);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+		}
+		.card {
+			background: var(--bg-secondary);
+			border: 1px solid var(--border-color);
+			border-radius: 20px;
+			max-width: 520px;
+			width: 100%;
+			padding: 40px;
+			text-align: center;
+			box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+		}
+		.logo {
+			width: 72px;
+			height: 72px;
+			margin-bottom: 20px;
+			filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.4));
+		}
+		h1 {
+			font-size: 24px;
+			margin-bottom: 12px;
+		}
+		p {
+			color: var(--text-secondary);
+			margin-bottom: 24px;
+			line-height: 1.6;
+		}
+		.code-box {
+			background: var(--bg-primary);
+			border: 1px solid var(--border-color);
+			border-radius: 12px;
+			padding: 16px;
+			text-align: left;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+			font-size: 14px;
+			color: #38bdf8;
+			margin-bottom: 24px;
+			position: relative;
+		}
+		.code-box .comment {
+			color: #64748b;
+			display: block;
+			margin-bottom: 6px;
+		}
+		.notice {
+			background: rgba(245, 158, 11, 0.1);
+			border: 1px solid rgba(245, 158, 11, 0.3);
+			border-radius: 10px;
+			padding: 12px 16px;
+			font-size: 13px;
+			color: #fbbf24;
+			margin-bottom: 24px;
+			text-align: left;
+		}
+		.btn {
+			display: inline-block;
+			background: var(--accent-purple);
+			color: #fff;
+			padding: 12px 24px;
+			border-radius: 10px;
+			text-decoration: none;
+			font-weight: 600;
+			transition: background 0.2s;
+			border: none;
+			cursor: pointer;
+		}
+		.btn:hover {
+			background: var(--accent-hover);
+		}
+	</style>
+</head>
+<body>
+	<div class="card">
+		<img class="logo" src="https://i.imgur.com/DHKJ7dT.png" alt="W-Suggest Logo">
+		<h1>Dashboard non activé</h1>
+		<p>Pour des raisons de sécurité, l'accès au tableau de bord nécessite la définition d'un mot de passe dans votre fichier <code>.env</code>.</p>
+		
+		<div class="notice">
+			⚠️ Ajoutez la variable ci-dessous dans votre <code>.env</code> puis redémarrez le serveur.
+		</div>
+
+		<div class="code-box">
+			<span class="comment"># .env</span>
+			<span>DASHBOARD_PASSWORD=MonMotDePasseSecret123</span>
+		</div>
+
+		<a href="/configure" class="btn">Aller à la page de configuration du plugin</a>
+	</div>
+</body>
+</html>
