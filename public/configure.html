@@ -16,17 +16,15 @@
 		<div class="page">
 			<aside class="intro">
 				<div class="intro-inner">
-					<div class="addon-logo">
-						<img src="/logo.png" alt="Logo de W Suggest" referrerpolicy="no-referrer" />
+					<div class="brand">
+						<span class="addon-logo"><img src="/logo.png" alt="" /></span>
+						<span>W Suggest</span>
 					</div>
-					<h1>W Suggest</h1>
-					<p class="tagline">Des recommandations de films et séries, directement dans Stremio.</p>
-					<p class="intro-text">
-						Pour n’importe quel titre, W Suggest rassemble les recommandations de plusieurs sources et les affiche dans ta bibliothèque Stremio.
-					</p>
-					<p class="intro-text">
-						Ajoute ta propre clé API pour chaque source que tu veux utiliser. Une seule suffit : si tu ne veux que TMDB, seule la clé TMDB est nécessaire.
-					</p>
+					<nav class="config-nav" aria-label="Sections de configuration">
+						<a href="#sources">Sources</a>
+						<a href="#catalogues">Catalogues</a>
+						<a href="#preferences">Préférences</a>
+					</nav>
 					<div class="intro-links">
 						<a href="https://github.com/Wallacecleaver/W-Suggest" target="_blank" rel="noopener">Documentation</a>
 						<a href="/dashboard">Tableau de bord admin</a>
@@ -35,24 +33,90 @@
 			</aside>
 
 			<main class="content">
+				<header class="config-heading">
+					<h1>Configurer W Suggest</h1>
+					<p>Choisis tes sources de recommandations pour Stremio. Une seule clé API suffit pour commencer.</p>
+				</header>
 				<form id="configForm" action="/saveConfig" method="POST">
-					<section class="panel">
+					<section class="panel" id="sources">
 						<header class="panel-head">
 							<h2 class="section-header">Sources de recommandations</h2>
 							<p>Renseigne au moins une clé, puis clique sur « Vérifier » pour la tester.</p>
 						</header>
 
-						<div class="field">
-							<div class="field-head">
-								<label for="tmdbApiKey">Clé API TMDB</label>
-								<a class="help-link" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
+						<div class="provider-grid">
+							<div class="field">
+								<div class="field-head">
+									<label for="tmdbApiKey">TMDB</label>
+									<a class="help-link" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="tmdbApiKey" name="tmdbApiKey" placeholder="Colle ta clé TMDB" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('tmdb')">Vérifier</button>
+									<input type="hidden" name="validatedTmdbApiKey" id="validatedTmdbApiKey" />
+								</div>
+								<div id="tmdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
-							<div class="input-with-verify">
-								<input type="text" id="tmdbApiKey" name="tmdbApiKey" placeholder="Colle ta clé TMDB" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('tmdb')">Vérifier</button>
-								<input type="hidden" name="validatedTmdbApiKey" id="validatedTmdbApiKey" />
+							<div class="field">
+								<div class="field-head">
+									<label for="traktApiKey">Trakt</label>
+									<a class="help-link" href="https://trakt.tv/oauth/applications" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="traktApiKey" name="traktApiKey" placeholder="Colle ta clé Trakt" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('trakt')">Vérifier</button>
+									<input type="hidden" name="validatedTraktApiKey" id="validatedTraktApiKey" />
+								</div>
+								<div id="trakt-verify-status" class="verify-status" role="status" aria-live="polite"></div>
 							</div>
-							<div id="tmdb-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+							<div class="field">
+								<div class="field-head">
+									<label for="geminiApiKey">Gemini AI</label>
+									<a class="help-link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="geminiApiKey" name="geminiApiKey" placeholder="Colle ta clé Gemini AI" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('gemini')">Vérifier</button>
+									<input type="hidden" name="validatedGeminiApiKey" id="validatedGeminiApiKey" />
+								</div>
+								<div id="gemini-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+							</div>
+							<div class="field">
+								<div class="field-head">
+									<label for="tastediveApiKey">TasteDive</label>
+									<a class="help-link" href="https://tastedive.com/account/api_access" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="tastediveApiKey" name="tastediveApiKey" placeholder="Colle ta clé TasteDive" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('tastedive')">Vérifier</button>
+									<input type="hidden" name="validatedTastediveApiKey" id="validatedTastediveApiKey" />
+								</div>
+								<div id="tastedive-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+							</div>
+							<div class="field">
+								<div class="field-head">
+									<label for="watchmodeApiKey">Watchmode</label>
+									<a class="help-link" href="https://api.watchmode.com/requestApiKey/" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="watchmodeApiKey" name="watchmodeApiKey" placeholder="Colle ta clé Watchmode" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('watchmode')">Vérifier</button>
+									<input type="hidden" name="validatedWatchmodeApiKey" id="validatedWatchmodeApiKey" />
+								</div>
+								<div id="watchmode-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+							</div>
+							<div class="field">
+								<div class="field-head">
+									<label for="simklApiKey">Simkl</label>
+									<a class="help-link" href="https://simkl.com/settings/developer/new/" target="_blank" rel="noopener">Obtenir une clé</a>
+								</div>
+								<div class="input-with-verify">
+									<input type="text" id="simklApiKey" name="simklApiKey" placeholder="Colle ta clé Simkl" autocomplete="off" spellcheck="false" />
+									<button type="button" class="verify-btn" onclick="verifyApiKey('simkl')">Vérifier</button>
+									<input type="hidden" name="validatedSimklApiKey" id="validatedSimklApiKey" />
+								</div>
+								<div id="simkl-verify-status" class="verify-status" role="status" aria-live="polite"></div>
+							</div>
 						</div>
 						<div class="row toggle-group conditional-setting hidden" data-conditional="tmdbApiKey" data-show-if="not-empty">
 							<div class="row-text">
@@ -64,69 +128,9 @@
 								<span class="toggle-slider"></span>
 							</label>
 						</div>
-						<div class="field">
-							<div class="field-head">
-								<label for="traktApiKey">Clé API Trakt</label>
-								<a class="help-link" href="https://trakt.tv/oauth/applications" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
-							</div>
-							<div class="input-with-verify">
-								<input type="text" id="traktApiKey" name="traktApiKey" placeholder="Colle ta clé Trakt" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('trakt')">Vérifier</button>
-								<input type="hidden" name="validatedTraktApiKey" id="validatedTraktApiKey" />
-							</div>
-							<div id="trakt-verify-status" class="verify-status" role="status" aria-live="polite"></div>
-						</div>
-						<div class="field">
-							<div class="field-head">
-								<label for="geminiApiKey">Clé API Gemini AI</label>
-								<a class="help-link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
-							</div>
-							<div class="input-with-verify">
-								<input type="text" id="geminiApiKey" name="geminiApiKey" placeholder="Colle ta clé Gemini AI" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('gemini')">Vérifier</button>
-								<input type="hidden" name="validatedGeminiApiKey" id="validatedGeminiApiKey" />
-							</div>
-							<div id="gemini-verify-status" class="verify-status" role="status" aria-live="polite"></div>
-						</div>
-						<div class="field">
-							<div class="field-head">
-								<label for="tastediveApiKey">Clé API TasteDive</label>
-								<a class="help-link" href="https://tastedive.com/account/api_access" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
-							</div>
-							<div class="input-with-verify">
-								<input type="text" id="tastediveApiKey" name="tastediveApiKey" placeholder="Colle ta clé TasteDive" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('tastedive')">Vérifier</button>
-								<input type="hidden" name="validatedTastediveApiKey" id="validatedTastediveApiKey" />
-							</div>
-							<div id="tastedive-verify-status" class="verify-status" role="status" aria-live="polite"></div>
-						</div>
-						<div class="field">
-							<div class="field-head">
-								<label for="watchmodeApiKey">Clé API Watchmode</label>
-								<a class="help-link" href="https://api.watchmode.com/requestApiKey/" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
-							</div>
-							<div class="input-with-verify">
-								<input type="text" id="watchmodeApiKey" name="watchmodeApiKey" placeholder="Colle ta clé Watchmode" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('watchmode')">Vérifier</button>
-								<input type="hidden" name="validatedWatchmodeApiKey" id="validatedWatchmodeApiKey" />
-							</div>
-							<div id="watchmode-verify-status" class="verify-status" role="status" aria-live="polite"></div>
-						</div>
-						<div class="field">
-							<div class="field-head">
-								<label for="simklApiKey">Clé API Simkl</label>
-								<a class="help-link" href="https://simkl.com/settings/developer/new/" target="_blank" rel="noopener">Obtenir une clé gratuite</a>
-							</div>
-							<div class="input-with-verify">
-								<input type="text" id="simklApiKey" name="simklApiKey" placeholder="Colle ta clé Simkl" autocomplete="off" spellcheck="false" />
-								<button type="button" class="verify-btn" onclick="verifyApiKey('simkl')">Vérifier</button>
-								<input type="hidden" name="validatedSimklApiKey" id="validatedSimklApiKey" />
-							</div>
-							<div id="simkl-verify-status" class="verify-status" role="status" aria-live="polite"></div>
-						</div>
 					</section>
 
-					<section class="panel">
+					<section class="panel" id="catalogues">
 						<header class="panel-head">
 							<h2 class="section-header">Catalogues</h2>
 							<p>Choisis comment les recommandations apparaissent dans Stremio.</p>
@@ -178,10 +182,10 @@
 						</div>
 					</section>
 
-					<section class="panel">
+					<section class="panel" id="preferences">
 						<header class="panel-head">
-							<h2 class="section-header">Options</h2>
-							<p>Tout est facultatif : les valeurs par défaut fonctionnent très bien.</p>
+							<h2 class="section-header">Préférences</h2>
+							<p>Personnalise la recherche, les métadonnées et les raccourcis.</p>
 						</header>
 
 						<div class="row toggle-group">
@@ -300,14 +304,14 @@
 					<input type="hidden" name="forCopy" id="forCopy" value="false" />
 
 					<div class="manifest-url-box hidden" id="manifestUrlBox">
-						<label for="manifestUrlDisplay">URL du manifest</label>
+						<label for="manifestUrlDisplay">Lien d’installation</label>
 						<input type="text" id="manifestUrlDisplay" readonly placeholder="L’URL de ton manifest apparaîtra ici" />
 						<p class="row-hint">Copiée dans le presse-papiers. Colle-la dans la barre de recherche d’addons de Stremio.</p>
 					</div>
 
 					<div class="button-group">
-						<button type="submit" id="installBtn" class="install-button">Installer dans Stremio</button>
-						<button type="submit" id="copyManifestBtn" class="copy-manifest-button">Copier l’URL du manifest</button>
+						<button type="submit" id="installBtn" class="install-button"><span aria-hidden="true">✨</span> Installer dans Stremio</button>
+						<button type="submit" id="copyManifestBtn" class="copy-manifest-button">Copier le lien d’installation</button>
 					</div>
 				</form>
 
