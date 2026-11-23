@@ -10,9 +10,21 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource, p
 	}
 
 	const streamOrder = userConfig.streamOrder || [];
-	const enabledStreamButtons = userConfig.enabledStreamButtons;
+	const enabledStreamButtons = userConfig.enabledStreamButtons || {};
 
-	let stream = [];
+	if (pageUrl && config && enabledStreamButtons.recs && streamOrder.includes("recs") &&
+		["movie", "series"].includes(type) && /^(tt\d+|(?:tmdb|trakt|kitsu):\d+)$/.test(searchId)) {
+		return {
+			streams: [{
+				name: "Voir les recommandations",
+				description: "Films et séries similaires sur W Suggest",
+				externalUrl: `${pageUrl}#${new URLSearchParams({ config, type, id: searchId })}`,
+			}],
+			cacheMaxAge: 0,
+		};
+	}
+
+	const stream = [];
 
 	for (let button of streamOrder) {
 		if (button === "detail" && enabledStreamButtons.detail) {
@@ -54,9 +66,7 @@ async function streamHandler(origin, type, metaId, userConfig, metadataSource, p
 			const recsButton = {
 				name: "W Suggest",
 				description: "Voir les recommandations",
-				externalUrl: pageUrl
-					? `${pageUrl}#${new URLSearchParams({ config, type, id: searchId })}`
-					: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + `/detail/${type}/mlt-rec-${searchId}`,
+				externalUrl: (origin?.includes("web.stremio.com") ? "https://web.stremio.com/#" : "stremio://") + `/detail/${type}/mlt-rec-${searchId}`,
 			};
 
 			stream.push(recsButton);
