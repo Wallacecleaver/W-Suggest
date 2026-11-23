@@ -273,8 +273,10 @@ async function startServer() {
 
 	app.post("/saveConfig", async (req, res) => {
 		const forCopy = req.body?.forCopy === "true";
-		const rejectConfig = (error) => {
-			if (forCopy) return res.status(400).json({ error });
+		const wantsJson = req.is("application/json") || forCopy;
+		const rejectConfig = (error, fallbackAnchor) => {
+			if (wantsJson) return res.status(400).json({ error });
+			if (fallbackAnchor) return res.redirect(303, `/configure#${fallbackAnchor}`);
 			return res.status(400).send(error);
 		};
 		const nickname = typeof req.body?.nickname === "string" ? req.body.nickname.trim() : "";
@@ -291,14 +293,14 @@ async function startServer() {
 			}
 
 			if (!RECOMMENDATION_SOURCES.some((source) => submittedKeys[source])) {
-				return rejectConfig("Ajoute et vérifie au moins une clé de recommandation.");
+				return rejectConfig("Ajoute et vérifie au moins une clé de recommandation.", "installationStatus");
 			}
 
 			const results = await validateApiKeys(submittedKeys);
 			const apiKeys = {};
 			for (const [source, key] of Object.entries(submittedKeys)) {
 				if (key && results[source]?.valid !== true) {
-					return rejectConfig("Impossible de valider toutes les clés saisies. Vérifie-les dans la configuration, puis réessaie.");
+					return rejectConfig("Impossible de valider toutes les clés saisies. Vérifie-les dans la configuration, puis réessaie.", "installationStatus");
 				}
 				apiKeys[source] = { key, valid: Boolean(key) };
 			}
@@ -348,7 +350,9 @@ async function startServer() {
 				return res.json({ manifestUrl });
 			}
 
-			return res.redirect(`stremio://${host}/${userConfig}/manifest.json`);
+			const installUrl = `stremio://${host}/${userConfig}/manifest.json`;
+			if (wantsJson) return res.json({ installUrl });
+			return res.redirect(installUrl);
 		} catch (error) {
 			return rejectConfig("Impossible d’enregistrer la configuration. Réessaie.");
 		}

@@ -17,16 +17,14 @@ function updateInstallationState() {
 	}
 
 	const ready = hasVerifiedSource && !hasUnverifiedKey;
-	document.getElementById("installBtn").disabled = !ready;
-	document.getElementById("copyManifestBtn").disabled = !ready;
-
 	const status = document.getElementById("installationStatus");
 	const message = ready
 		? "Clés vérifiées. Tu peux installer W Suggest."
 		: hasVerifiedSource
 			? "Vérifie les autres clés saisies ou efface-les pour continuer."
-			: "Vérifie une clé de recommandation pour déverrouiller l’installation.";
+			: "Ajoute au moins une clé de recommandation, puis clique sur « Vérifier ».";
 	status.classList.toggle("is-ready", ready);
+	status.classList.remove("has-error");
 	if (status.textContent !== message) status.textContent = message;
 
 	return ready;

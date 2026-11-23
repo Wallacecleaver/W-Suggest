@@ -10,7 +10,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Outfit:wght@700&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="styles.css?v=inline-install" />
 	</head>
 	<body>
 		<div class="page">
@@ -52,7 +52,7 @@
 					<section class="panel" id="sources">
 						<header class="panel-head">
 							<h2 class="section-header">Sources de recommandations</h2>
-							<p>Renseigne au moins une clé, puis clique sur « Vérifier » pour la tester.</p>
+							<p id="installationStatus" class="installation-status" role="status" tabindex="-1">Ajoute au moins une clé de recommandation, puis clique sur « Vérifier ».</p>
 						</header>
 
 						<div class="provider-grid">
@@ -310,13 +310,13 @@
 					<div class="manifest-url-box hidden" id="manifestUrlBox">
 						<label for="manifestUrlDisplay">Lien d’installation</label>
 						<input type="text" id="manifestUrlDisplay" readonly placeholder="L’URL de ton manifest apparaîtra ici" />
-						<p class="row-hint">Copiée dans le presse-papiers. Colle-la dans la barre de recherche d’addons de Stremio.</p>
+						<p id="manifestHint" class="row-hint" role="status">Copie ce lien et colle-le dans la barre de recherche des extensions de Stremio.</p>
 					</div>
 
 					<div class="button-group">
-						<p id="installationStatus" class="installation-status" role="status">Vérifie une clé de recommandation pour déverrouiller l’installation.</p>
-						<button type="submit" id="installBtn" disabled aria-describedby="installationStatus" class="install-button"><span aria-hidden="true">✨</span> Installer dans Stremio</button>
-						<button type="submit" id="copyManifestBtn" disabled aria-describedby="installationStatus" class="copy-manifest-button">Copier le lien d’installation</button>
+						<button type="submit" id="installBtn" aria-describedby="installationStatus" class="install-button"><span aria-hidden="true">✨</span> Installer dans Stremio</button>
+						<button type="submit" id="copyManifestBtn" aria-describedby="installationStatus" class="copy-manifest-button">Copier le lien d’installation</button>
+						<a class="stremio-launch-link" id="stremioLaunchLink" hidden>Ouvrir Stremio manuellement</a>
 					</div>
 				</form>
 
@@ -339,9 +339,9 @@
 
 		<script src="populateLanguages.js"></script>
 		<script src="loadUserConfig.js"></script>
-		<script src="apiKeyVerification.js"></script>
+		<script src="apiKeyVerification.js?v=inline-install"></script>
 		<script src="conditionalSettings.js"></script>
 		<script src="catalogOrder.js"></script>
-		<script src="formSubmission.js"></script>
+		<script src="formSubmission.js?v=inline-install"></script>
 	</body>
 </html>

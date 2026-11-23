@@ -27,7 +27,7 @@ html {
 	font-size: 16px;
 	background: var(--bg);
 	color-scheme: dark;
-	scroll-padding-bottom: 122px;
+	scroll-padding-bottom: 88px;
 }
 
 body {
@@ -588,14 +588,29 @@ input[type="text"][data-valid="true"] {
 	z-index: 2;
 }
 
-.installation-status {
+.installation-status.is-ready {
+	color: var(--ok);
+}
+
+.installation-status.has-error,
+.installation-status:target:not(.is-ready) {
+	margin-top: 10px;
+	padding: 10px 12px;
+	border-left: 3px solid var(--accent);
+	border-radius: 6px;
+	background: var(--accent-ghost);
+	color: var(--accent-soft);
+}
+
+.stremio-launch-link {
 	grid-column: 1 / -1;
-	color: var(--muted);
+	justify-self: start;
 	font-size: 0.9rem;
 }
 
-.installation-status.is-ready {
-	color: var(--ok);
+.installation-status:focus {
+	outline: 2px solid var(--accent-soft);
+	outline-offset: 2px;
 }
 
 .install-button,
