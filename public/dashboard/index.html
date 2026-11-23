@@ -3,411 +3,268 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>W-Suggest - Tableau de bord</title>
+	<meta name="color-scheme" content="dark">
+	<title>W Suggest — Tableau de bord</title>
 	<link rel="icon" href="/logo.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/dashboard/assets/dashboard.css">
 </head>
 <body>
-	<!-- Header -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+	<defs>
+		<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+		<symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol>
+		<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+		<symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+		<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></symbol>
+		<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+		<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+		<symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+		<symbol id="i-traffic" viewBox="0 0 24 24"><path d="M8 3L4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/></symbol>
+		<symbol id="i-terminal" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></symbol>
+		<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+		<symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+		<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
+		<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19.5a1 1 0 0 0 .9 1.5h13.2a1 1 0 0 0 .9-1.5L14 9V3"/></symbol>
+		<symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+		<symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+		<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+		<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></symbol>
+	</defs>
+</svg>
+
 	<header class="top-header">
 		<div class="header-container">
 			<a href="/dashboard" class="brand">
-				<img class="brand-logo" src="/logo.png" alt="W-Suggest Logo">
-				<div class="brand-title">
-					W-Suggest <span class="version-tag">v0.12.1</span>
-				</div>
+				<img class="brand-logo" src="/logo.png" alt="Logo de W Suggest">
+				<div class="brand-title">W Suggest <span class="version-tag">v0.12.1</span></div>
 			</a>
 
 			<div class="header-actions">
-				<div class="status-badge">
-					<span class="pulse-dot"></span>
-					Serveur Actif
-				</div>
-
-				<button class="btn-header" id="refreshBtn" title="Rafraîchir les données">
-					🔄 Actualiser
-				</button>
-
-				<a href="/configure" class="btn-header" target="_blank" title="Ouvrir la page de configuration Stremio">
-					⚙️ Config Stremio
-				</a>
-
-				<button class="btn-header btn-danger-outline" id="logoutBtn" title="Déconnexion">
-					🔒 Déconnexion
-				</button>
+				<span class="last-update" id="lastUpdate"></span>
+				<div class="status-badge"><span class="pulse-dot"></span>Serveur actif</div>
+				<button class="btn-header" id="refreshBtn" title="Actualiser les données"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg><span class="label">Actualiser</span></button>
+				<a href="/configure" class="btn-header" target="_blank" rel="noopener" title="Ouvrir la page de configuration"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg><span class="label">Configuration</span></a>
+				<button class="btn-header btn-danger-outline" id="logoutBtn" title="Se déconnecter"><svg class="icon" aria-hidden="true"><use href="#i-logout"/></svg><span class="label">Déconnexion</span></button>
 			</div>
 		</div>
 	</header>
 
 	<div class="main-wrapper">
-		<!-- KPI Summary Cards -->
 		<div class="kpi-grid">
 			<div class="kpi-card">
-				<div class="kpi-icon icon-purple">⏱️</div>
-				<div class="kpi-info">
-					<span class="kpi-label">Temps de fonctionnement</span>
-					<span class="kpi-value" id="valUptime">--</span>
-					<span class="kpi-sub">Depuis le démarrage</span>
-				</div>
+				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Temps de fonctionnement</div>
+				<span class="kpi-value" id="valUptime">--</span>
+				<span class="kpi-sub">Depuis le démarrage</span>
 			</div>
-
 			<div class="kpi-card">
-				<div class="kpi-icon icon-cyan">🚀</div>
-				<div class="kpi-info">
-					<span class="kpi-label">Requêtes Traitées</span>
-					<span class="kpi-value" id="valRequests">0</span>
-					<span class="kpi-sub" id="valAvgLatency">0 ms (moyenne)</span>
-				</div>
+				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-activity"/></svg>Requêtes traitées</div>
+				<span class="kpi-value" id="valRequests">0</span>
+				<span class="kpi-sub" id="valAvgLatency">0 ms en moyenne</span>
 			</div>
-
 			<div class="kpi-card">
-				<div class="kpi-icon icon-green">⚡</div>
-				<div class="kpi-info">
-					<span class="kpi-label">Ratio Cache Hit</span>
-					<span class="kpi-value" id="valCacheHitRatio">0%</span>
-					<span class="kpi-sub" id="valCacheSub">0 hits / 0 misses</span>
-				</div>
+				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-zap"/></svg>Taux de cache</div>
+				<span class="kpi-value" id="valCacheHitRatio">0%</span>
+				<span class="kpi-sub" id="valCacheSub">0 succès / 0 échecs</span>
 			</div>
-
 			<div class="kpi-card">
-				<div class="kpi-icon icon-amber">🧠</div>
-				<div class="kpi-info">
-					<span class="kpi-label">Mémoire Utilisée (Heap)</span>
-					<span class="kpi-value" id="valMemory">-- Mo</span>
-					<span class="kpi-sub" id="valMemorySub">RSS: -- Mo</span>
-				</div>
+				<div class="kpi-head"><svg class="icon" aria-hidden="true"><use href="#i-cpu"/></svg>Mémoire (heap)</div>
+				<span class="kpi-value" id="valMemory">-- Mo</span>
+				<span class="kpi-sub" id="valMemorySub">RSS : -- Mo</span>
 			</div>
 		</div>
 
-		<!-- Navigation Tabs -->
-		<nav class="tabs-nav">
-			<button class="tab-btn active" data-tab="overview">📊 Vue d'ensemble</button>
-			<button class="tab-btn" data-tab="traffic">🚀 Trafic & Requêtes</button>
-			<button class="tab-btn" data-tab="cache">⚡ Cache</button>
-			<button class="tab-btn" data-tab="logs">📜 Journaux (Logs)</button>
-			<button class="tab-btn" data-tab="health">🩺 Santé & Testeur</button>
-			<button class="tab-btn" data-tab="config">⚙️ Configuration</button>
+		<nav class="tabs-nav" role="tablist">
+			<button class="tab-btn active" data-tab="overview"><svg class="icon" aria-hidden="true"><use href="#i-layout"/></svg>Vue d’ensemble</button>
+			<button class="tab-btn" data-tab="traffic"><svg class="icon" aria-hidden="true"><use href="#i-traffic"/></svg>Trafic et requêtes</button>
+			<button class="tab-btn" data-tab="cache"><svg class="icon" aria-hidden="true"><use href="#i-zap"/></svg>Cache</button>
+			<button class="tab-btn" data-tab="logs"><svg class="icon" aria-hidden="true"><use href="#i-terminal"/></svg>Journaux</button>
+			<button class="tab-btn" data-tab="health"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>Santé et testeur</button>
+			<button class="tab-btn" data-tab="config"><svg class="icon" aria-hidden="true"><use href="#i-sliders"/></svg>Configuration</button>
 		</nav>
 
-		<!-- TAB 1: OVERVIEW -->
+		<!-- Vue d'ensemble -->
 		<section id="tab-overview" class="tab-content">
 			<div class="grid-2">
-				<!-- Traffic Distribution -->
 				<div class="card-panel">
-					<div class="panel-header">
-						<div class="panel-title">📈 Répartition du trafic par route</div>
-					</div>
-
+					<div class="panel-header"><div class="panel-title">Trafic par route</div></div>
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Catalogues (/catalog)</span>
-							<span id="count-catalog">0</span>
-						</div>
+						<div class="bar-header"><span>Catalogues (/catalog)</span><span id="count-catalog">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-catalog" id="fill-catalog" style="width: 0%;"></div></div>
 					</div>
-
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Flux / Streams (/stream)</span>
-							<span id="count-stream">0</span>
-						</div>
+						<div class="bar-header"><span>Flux (/stream)</span><span id="count-stream">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-stream" id="fill-stream" style="width: 0%;"></div></div>
 					</div>
-
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Métadonnées (/meta)</span>
-							<span id="count-meta">0</span>
-						</div>
+						<div class="bar-header"><span>Métadonnées (/meta)</span><span id="count-meta">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-meta" id="fill-meta" style="width: 0%;"></div></div>
 					</div>
-
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Manifest Stremio (manifest.json)</span>
-							<span id="count-manifest">0</span>
-						</div>
+						<div class="bar-header"><span>Manifest Stremio (/manifest.json)</span><span id="count-manifest">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-manifest" id="fill-manifest" style="width: 0%;"></div></div>
 					</div>
-
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Page Configure (/configure)</span>
-							<span id="count-configure">0</span>
-						</div>
+						<div class="bar-header"><span>Page de configuration (/configure)</span><span id="count-configure">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-configure" id="fill-configure" style="width: 0%;"></div></div>
 					</div>
-
 					<div class="bar-group">
-						<div class="bar-header">
-							<span>Tableau de bord (/dashboard)</span>
-							<span id="count-dashboard">0</span>
-						</div>
+						<div class="bar-header"><span>Tableau de bord (/dashboard)</span><span id="count-dashboard">0</span></div>
 						<div class="bar-track"><div class="bar-fill bar-dashboard" id="fill-dashboard" style="width: 0%;"></div></div>
 					</div>
 				</div>
 
-				<!-- System & Environment -->
 				<div class="card-panel">
-					<div class="panel-header">
-						<div class="panel-title">🖥️ Environnement & Paramètres</div>
-					</div>
-
-					<div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Port d'écoute :</span>
-							<strong id="envPort">8080</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Journalisation (ENABLE_LOGGING) :</span>
-							<strong id="envLogging">--</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Chiffrement URL (ENCRYPTION_KEY) :</span>
-							<strong id="envEncryption">--</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Moteur de Cache :</span>
-							<strong id="envCacheType">Mémoire Locale</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Version Node.js :</span>
-							<strong id="envNodeVer">--</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
-							<span style="color: var(--text-secondary);">Modèle Gemini IA :</span>
-							<strong id="envGeminiModel">gemini-2.5-flash-lite</strong>
-						</div>
-					</div>
+					<div class="panel-header"><div class="panel-title">Environnement</div></div>
+					<div class="kv"><span>Port d’écoute</span><strong id="envPort">8080</strong></div>
+					<div class="kv"><span>Journalisation (ENABLE_LOGGING)</span><strong id="envLogging">--</strong></div>
+					<div class="kv"><span>Chiffrement des URL (ENCRYPTION_KEY)</span><strong id="envEncryption">--</strong></div>
+					<div class="kv"><span>Moteur de cache</span><strong id="envCacheType">Mémoire locale</strong></div>
+					<div class="kv"><span>Version de Node.js</span><strong id="envNodeVer">--</strong></div>
+					<div class="kv"><span>Modèle Gemini</span><strong id="envGeminiModel">gemini-2.5-flash-lite</strong></div>
 				</div>
 			</div>
 		</section>
 
-		<!-- TAB 2: TRAFFIC -->
+		<!-- Trafic -->
 		<section id="tab-traffic" class="tab-content" style="display: none;">
 			<div class="card-panel">
 				<div class="panel-header">
-					<div class="panel-title">📡 Dernières Requêtes Récentes</div>
-					<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); cursor: pointer;">
-						<input type="checkbox" id="autoRefreshToggle" checked> Auto-rafraîchissement (5s)
+					<div class="panel-title">Dernières requêtes</div>
+					<label class="switch">
+						<input type="checkbox" id="autoRefreshToggle" checked>
+						<span class="track"></span>
+						Actualisation automatique (5 s)
 					</label>
+				</div>
+
+				<div class="latency-wrap" id="latencyWrap" style="display: none;">
+					<div class="latency-title"><span>Durée des dernières requêtes</span><span id="latencyMax"></span></div>
+					<div class="latency" id="latencyChart"></div>
 				</div>
 
 				<div class="table-wrapper">
 					<table>
-						<thead>
-							<tr>
-								<th>Heure</th>
-								<th>Méthode</th>
-								<th>Chemin / URL</th>
-								<th>Statut</th>
-								<th>Durée</th>
-							</tr>
-						</thead>
+						<thead><tr><th>Heure</th><th>Méthode</th><th>Chemin</th><th>Statut</th><th>Durée</th></tr></thead>
 						<tbody id="recentRequestsTableBody">
-							<tr>
-								<td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">Chargement des requêtes...</td>
-							</tr>
+							<tr><td colspan="5" class="empty">Chargement des requêtes…</td></tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</section>
 
-		<!-- TAB 3: CACHE -->
+		<!-- Cache -->
 		<section id="tab-cache" class="tab-content" style="display: none;">
 			<div class="grid-2">
 				<div class="card-panel">
 					<div class="panel-header">
-						<div class="panel-title">⚡ Statistiques du Cache</div>
-						<button class="btn-action btn-danger" id="clearCacheBtn">🗑️ Vider le cache</button>
+						<div class="panel-title">Statistiques du cache</div>
+						<button class="btn-action btn-danger" id="clearCacheBtn"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>Vider le cache</button>
 					</div>
-
-					<div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Hits (Succès en cache) :</span>
-							<strong id="cacheDetailHits">0</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Misses (Échecs / Requêtes API) :</span>
-							<strong id="cacheDetailMisses">0</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Mises en cache effectuées :</span>
-							<strong id="cacheDetailSets">0</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Taux d'efficacité (Hit Ratio) :</span>
-							<strong id="cacheDetailRatio">0%</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 8px;">
-							<span style="color: var(--text-secondary);">Entrées en mémoire / Limite :</span>
-							<strong id="cacheDetailSize">0 / 3000</strong>
-						</div>
-						<div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
-							<span style="color: var(--text-secondary);">Type de backend actif :</span>
-							<strong id="cacheDetailBackend">In-Memory (Local Map)</strong>
-						</div>
-					</div>
+					<div class="kv"><span>Succès (lu depuis le cache)</span><strong id="cacheDetailHits">0</strong></div>
+					<div class="kv"><span>Échecs (appels aux API)</span><strong id="cacheDetailMisses">0</strong></div>
+					<div class="kv"><span>Mises en cache effectuées</span><strong id="cacheDetailSets">0</strong></div>
+					<div class="kv"><span>Taux de succès</span><strong id="cacheDetailRatio">0%</strong></div>
+					<div class="kv"><span>Entrées en mémoire / limite</span><strong id="cacheDetailSize">0 / 3000</strong></div>
+					<div class="kv"><span>Moteur actif</span><strong id="cacheDetailBackend">Mémoire locale</strong></div>
 				</div>
 
 				<div class="card-panel">
-					<div class="panel-header">
-						<div class="panel-title">🔑 Dernières clés en cache</div>
-					</div>
-					<div id="cacheRecentKeys" style="max-height: 260px; overflow-y: auto;">
-						<div style="color: var(--text-muted); font-size: 13px;">Chargement des clés...</div>
-					</div>
+					<div class="panel-header"><div class="panel-title">Dernières clés en cache</div></div>
+					<div id="cacheRecentKeys" class="key-list"><div class="empty">Chargement des clés…</div></div>
 				</div>
 			</div>
 		</section>
 
-		<!-- TAB 4: LOGS -->
+		<!-- Journaux -->
 		<section id="tab-logs" class="tab-content" style="display: none;">
 			<div class="card-panel">
-				<div class="panel-header">
-					<div class="panel-title">📜 Visualiseur de Journaux (Logs)</div>
-				</div>
+				<div class="panel-header"><div class="panel-title">Journaux</div></div>
 
 				<div class="log-controls">
-					<select class="select-input" id="logFileSelect">
-						<option value="app.log">app.log (Général)</option>
-						<option value="error.log">error.log (Erreurs)</option>
-						<option value="cache.log">cache.log (Cache)</option>
-						<option value="emptyCatalog.log">emptyCatalog.log (Catalogues vides)</option>
+					<select class="select-input" id="logFileSelect" aria-label="Fichier de journal">
+						<option value="app.log">app.log (général)</option>
+						<option value="error.log">error.log (erreurs)</option>
+						<option value="cache.log">cache.log (cache)</option>
+						<option value="emptyCatalog.log">emptyCatalog.log (catalogues vides)</option>
 					</select>
 
-					<select class="select-input" id="logLevelSelect">
+					<select class="select-input" id="logLevelSelect" aria-label="Niveau de journal">
 						<option value="ALL">Tous les niveaux</option>
 						<option value="INFO">INFO</option>
 						<option value="WARN">WARN</option>
 						<option value="ERROR">ERROR</option>
 					</select>
 
-					<button class="btn-action btn-secondary" id="reloadLogsBtn">🔄 Recharger</button>
-					<button class="btn-action btn-danger" id="clearLogsBtn">🗑️ Vider le fichier</button>
+					<span class="spacer"></span>
+					<button class="btn-action btn-secondary" id="reloadLogsBtn"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Recharger</button>
+					<button class="btn-action btn-danger" id="clearLogsBtn"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>Vider le fichier</button>
 				</div>
 
-				<div class="log-terminal" id="logTerminal">
-					Chargement des journaux...
-				</div>
+				<div class="log-terminal" id="logTerminal">Chargement des journaux…</div>
 			</div>
 		</section>
 
-		<!-- TAB 5: HEALTH & TESTER -->
+		<!-- Santé et testeur -->
 		<section id="tab-health" class="tab-content" style="display: none;">
-			<div class="card-panel" style="margin-bottom: 24px;">
-				<div class="panel-header">
-					<div class="panel-title">🩺 Disponibilité des Fournisseurs Externes</div>
-				</div>
-				<div class="provider-grid" id="providersHealthList">
-					<div style="color: var(--text-muted);">Vérification de la santé des fournisseurs...</div>
-				</div>
+			<div class="card-panel">
+				<div class="panel-header"><div class="panel-title">Disponibilité des fournisseurs</div></div>
+				<div class="provider-grid" id="providersHealthList"><div class="empty">Vérification des fournisseurs…</div></div>
 			</div>
 
 			<div class="card-panel">
-				<div class="panel-header">
-					<div class="panel-title">🧪 Testeur de clés d'API en direct</div>
-				</div>
-				<p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 18px;">
-					Vérifiez instantanément la validité d'une clé API sans avoir à modifier vos paramètres Stremio.
-				</p>
+				<div class="panel-header"><div class="panel-title">Testeur de clé API</div></div>
+				<p class="panel-desc">Vérifie en direct qu’une clé API est valide, sans toucher à ta configuration Stremio.</p>
 
-				<form id="testKeyForm" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px;">
-					<div style="display: flex; flex-direction: column; gap: 6px;">
-						<label style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Fournisseur :</label>
-						<select id="testKeySource" class="select-input" style="min-width: 160px;">
-							<option value="tmdb">TMDB</option>
-							<option value="trakt">Trakt</option>
-							<option value="simkl">Simkl</option>
-							<option value="gemini">Gemini</option>
-							<option value="watchmode">Watchmode</option>
-							<option value="tastedive">TasteDive</option>
-							<option value="rpdb">RPDB</option>
-						</select>
+				<form id="testKeyForm" class="test-form">
+					<div class="col">
+						<label class="field-label" for="testKeySource">Fournisseur</label>
+						<select id="testKeySource" class="select-input" style="min-width: 170px;"><option value="tmdb">TMDB</option><option value="trakt">Trakt</option><option value="simkl">Simkl</option><option value="gemini">Gemini</option><option value="watchmode">Watchmode</option><option value="tastedive">TasteDive</option><option value="rpdb">RPDB</option></select>
 					</div>
 
-					<div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 240px;">
-						<label style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">Clé API :</label>
-						<input type="text" id="testKeyValue" class="text-input" placeholder="Entrez la clé API à tester..." required>
+					<div class="col grow">
+						<label class="field-label" for="testKeyValue">Clé API</label>
+						<input type="text" id="testKeyValue" class="text-input" placeholder="Colle la clé à tester" autocomplete="off" spellcheck="false" required>
 					</div>
 
-					<button type="submit" class="btn-action" id="testKeySubmit">Tester la clé</button>
+					<button type="submit" class="btn-action" id="testKeySubmit"><svg class="icon" aria-hidden="true"><use href="#i-flask"/></svg>Tester la clé</button>
 				</form>
 
 				<div id="testKeyResult" style="display: none;"></div>
 			</div>
 		</section>
 
-		<!-- TAB 6: CONFIG -->
+		<!-- Configuration -->
 		<section id="tab-config" class="tab-content" style="display: none;">
 			<div class="card-panel">
-				<div class="panel-header">
-					<div class="panel-title">⚙️ Documentation & Variables d'Environnement</div>
+				<div class="panel-header"><div class="panel-title">Variables d’environnement</div></div>
+				<p class="panel-desc">Le tableau de bord est protégé par le mot de passe défini dans ton fichier <code>.env</code>. Tu peux personnaliser les variables suivantes.</p>
+
+				<div class="table-wrapper">
+					<table>
+						<thead><tr><th>Variable</th><th>Description</th><th>Valeur par défaut</th></tr></thead>
+						<tbody>
+							<tr><td><code>DASHBOARD_PASSWORD</code></td><td>Mot de passe protégeant l’accès au tableau de bord</td><td><em>Obligatoire</em></td></tr>
+							<tr><td><code>PORT</code></td><td>Port d’écoute du serveur HTTP Express</td><td><code>8080</code></td></tr>
+							<tr><td><code>ENABLE_LOGGING</code></td><td>Active l’écriture des journaux dans <code>logs/</code></td><td><code>false</code></td></tr>
+							<tr><td><code>ENCRYPTION_KEY</code></td><td>Clé secrète qui chiffre les clés API des utilisateurs dans les URL Stremio</td><td><em>Facultatif</em></td></tr>
+							<tr><td><code>CACHE_TTL</code></td><td>Durée de vie du cache, en secondes</td><td><code>259200</code> (3 jours)</td></tr>
+							<tr><td><code>CACHE_MAX_SIZE</code></td><td>Nombre maximal d’éléments dans le cache local</td><td><code>3000</code></td></tr>
+							<tr><td><code>REDIS_URL</code></td><td>URL de connexion à Redis pour un cache externe</td><td><em>Désactivé (cache local)</em></td></tr>
+						</tbody>
+					</table>
 				</div>
 
-				<div style="color: var(--text-secondary); font-size: 13px; line-height: 1.8;">
-					<p style="margin-bottom: 16px;">
-						Le tableau de bord est protégé par le mot de passe défini dans votre fichier <code>.env</code>. Vous pouvez personnaliser les variables suivantes :
-					</p>
-
-					<div class="table-wrapper">
-						<table>
-							<thead>
-								<tr>
-									<th>Variable</th>
-									<th>Description</th>
-									<th>Valeur par défaut</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><code>DASHBOARD_PASSWORD</code></td>
-									<td>Mot de passe protégeant l'accès au tableau de bord</td>
-									<td><em>Obligatoire pour accéder au dashboard</em></td>
-								</tr>
-								<tr>
-									<td><code>PORT</code></td>
-									<td>Port d'écoute du serveur HTTP Express</td>
-									<td><code>8080</code></td>
-								</tr>
-								<tr>
-									<td><code>ENABLE_LOGGING</code></td>
-									<td>Active l'enregistrement des journaux dans <code>logs/</code></td>
-									<td><code>false</code></td>
-								</tr>
-								<tr>
-									<td><code>ENCRYPTION_KEY</code></td>
-									<td>Clé secrète pour chiffrer les clés API des utilisateurs dans les URLs Stremio</td>
-									<td><em>Optionnel</em></td>
-								</tr>
-								<tr>
-									<td><code>CACHE_TTL</code></td>
-									<td>Durée de vie du cache en secondes</td>
-									<td><code>259200 (3 jours)</code></td>
-								</tr>
-								<tr>
-									<td><code>CACHE_MAX_SIZE</code></td>
-									<td>Nombre maximum d'éléments dans le cache local</td>
-									<td><code>3000</code></td>
-								</tr>
-								<tr>
-									<td><code>REDIS_URL</code></td>
-									<td>URL de connexion Redis si vous utilisez un cache externe</td>
-									<td><em>Désactivé (mémoire locale)</em></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<div style="margin-top: 24px; padding: 16px; background: var(--bg-card); border-radius: 10px;">
-						<h4 style="color: #fff; margin-bottom: 8px;">🔗 Liens Utiles</h4>
-						<ul style="padding-left: 20px; line-height: 1.8;">
-							<li><a href="/configure" target="_blank" style="color: var(--accent-hover);">Page de configuration Stremio (/configure)</a></li>
-							<li><a href="/manifest.json" target="_blank" style="color: var(--accent-hover);">Manifest Stremio par défaut (/manifest.json)</a></li>
-							<li><a href="https://github.com/Wallacecleaver/W-Suggest" target="_blank" style="color: var(--accent-hover);">Dépôt GitHub officiel W-Suggest</a></li>
-						</ul>
-					</div>
+				<div class="doc-note">
+					<h4>Liens utiles</h4>
+					<ul class="links-list">
+						<li><a href="/configure" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg>Page de configuration Stremio</a></li>
+						<li><a href="/manifest.json" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg>Manifest par défaut</a></li>
+						<li><a href="https://github.com/Wallacecleaver/W-Suggest" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg>Dépôt GitHub de W Suggest</a></li>
+					</ul>
 				</div>
 			</div>
 		</section>

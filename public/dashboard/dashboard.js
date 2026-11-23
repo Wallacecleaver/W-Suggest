@@ -81,7 +81,7 @@ function setupEventListeners() {
 	const logoutBtn = document.getElementById("logoutBtn");
 	if (logoutBtn) {
 		logoutBtn.addEventListener("click", async () => {
-			if (!confirm("Voulez-vous vous déconnecter du dashboard ?")) return;
+			if (!confirm("Te déconnecter du tableau de bord ?")) return;
 			try {
 				await fetch("/dashboard/api/logout", { method: "POST" });
 				window.location.href = "/dashboard/login";
@@ -95,18 +95,18 @@ function setupEventListeners() {
 	const clearCacheBtn = document.getElementById("clearCacheBtn");
 	if (clearCacheBtn) {
 		clearCacheBtn.addEventListener("click", async () => {
-			if (!confirm("Êtes-vous sûr de vouloir vider le cache ?")) return;
+			if (!confirm("Vider tout le cache ? Les prochaines requêtes seront plus lentes le temps qu’il se reconstitue.")) return;
 			clearCacheBtn.disabled = true;
 			try {
 				const res = await fetch("/dashboard/api/cache/clear", { method: "POST" });
 				const data = await res.json();
 				if (data.success) {
-					showToast("Cache vidé avec succès !");
+					showToast("Cache vidé");
 					loadCacheDetails();
 					loadSummary();
 				}
 			} catch (err) {
-				showToast("Erreur lors de la purge du cache", "error");
+				showToast("Impossible de vider le cache", "error");
 			} finally {
 				clearCacheBtn.disabled = false;
 			}
@@ -139,7 +139,7 @@ function setupEventListeners() {
 					loadLogs();
 				}
 			} catch (err) {
-				showToast("Erreur lors de l'effacement", "error");
+				showToast("Impossible d’effacer le fichier", "error");
 			}
 		});
 	}
@@ -157,7 +157,7 @@ function setupEventListeners() {
 			if (!key) return;
 
 			submitBtn.disabled = true;
-			submitBtn.textContent = "Test en cours...";
+			submitBtn.textContent = "Test en cours…";
 			resultBox.style.display = "none";
 
 			try {
@@ -170,27 +170,19 @@ function setupEventListeners() {
 
 				resultBox.style.display = "block";
 				if (data.valid) {
-					resultBox.className = "card-panel";
-					resultBox.style.borderColor = "#10b981";
-					resultBox.innerHTML = `
-						<div style="color: #34d399; font-weight: 600; margin-bottom: 6px;">✅ Clé API Valide !</div>
-						<div style="font-size: 13px; color: #94a3b8;">La clé pour <strong>${source.toUpperCase()}</strong> a été vérifiée avec succès par les serveurs distants.</div>
-					`;
+					resultBox.className = "result ok";
+					resultBox.innerHTML = `${icon("check")}<div><strong>Clé valide</strong><p>La clé ${escapeHtml(source.toUpperCase())} a été acceptée par le service distant.</p></div>`;
 				} else {
-					resultBox.className = "card-panel";
-					resultBox.style.borderColor = "#ef4444";
-					resultBox.innerHTML = `
-						<div style="color: #f87171; font-weight: 600; margin-bottom: 6px;">❌ Clé API Invalide</div>
-						<div style="font-size: 13px; color: #94a3b8;">La vérification a échoué : ${data.error || "Clé incorrecte ou rejetée"}</div>
-					`;
+					resultBox.className = "result err";
+					resultBox.innerHTML = `${icon("x")}<div><strong>Clé refusée</strong><p>${escapeHtml(data.error || "La clé est incorrecte ou a été rejetée.")}</p></div>`;
 				}
 			} catch (err) {
 				resultBox.style.display = "block";
-				resultBox.style.borderColor = "#ef4444";
-				resultBox.innerHTML = `<div style="color: #f87171;">Erreur lors du test : ${err.message}</div>`;
+				resultBox.className = "result err";
+				resultBox.innerHTML = `${icon("x")}<div><strong>Test impossible</strong><p>${escapeHtml(err.message)}</p></div>`;
 			} finally {
 				submitBtn.disabled = false;
-				submitBtn.textContent = "Tester la clé";
+				submitBtn.innerHTML = `${icon("flask")}Tester la clé`;
 			}
 		});
 	}
@@ -227,15 +219,15 @@ async function loadSummary() {
 
 		// Memory
 		document.getElementById("valMemory").textContent = `${data.system.memory.heapUsedMB} Mo`;
-		document.getElementById("valMemorySub").textContent = `RSS: ${data.system.memory.rssMB} Mo / Total: ${data.system.memory.heapTotalMB} Mo`;
+		document.getElementById("valMemorySub").textContent = `RSS : ${data.system.memory.rssMB} Mo · total : ${data.system.memory.heapTotalMB} Mo`;
 
 		// Traffic Total
-		document.getElementById("valRequests").textContent = data.traffic.total.toLocaleString();
-		document.getElementById("valAvgLatency").textContent = `${data.traffic.responseTimes.avgMs} ms (moyenne)`;
+		document.getElementById("valRequests").textContent = data.traffic.total.toLocaleString("fr-FR");
+		document.getElementById("valAvgLatency").textContent = `${data.traffic.responseTimes.avgMs} ms en moyenne`;
 
 		// Cache
 		document.getElementById("valCacheHitRatio").textContent = data.cache.hitRatio;
-		document.getElementById("valCacheSub").textContent = `${data.cache.hits} hits / ${data.cache.misses} misses (${data.cache.localSize} entrées)`;
+		document.getElementById("valCacheSub").textContent = `${data.cache.hits} succès / ${data.cache.misses} échecs · ${data.cache.localSize} entrées`;
 
 		// Breakdown bars in Overview
 		const total = data.traffic.total || 1;
@@ -251,11 +243,13 @@ async function loadSummary() {
 		// Environment Overview
 		document.getElementById("envPort").textContent = data.environment.port;
 		document.getElementById("envLogging").textContent = data.environment.loggingEnabled ? "Activé" : "Désactivé";
-		document.getElementById("envEncryption").textContent = data.environment.encryptionEnabled ? "Chiffré (Clé active)" : "Non chiffré";
-		document.getElementById("envCacheType").textContent = data.cache.backend || (data.cache.useRedis ? "Redis" : "SQLite (Base SQL)");
+		document.getElementById("envEncryption").textContent = data.environment.encryptionEnabled ? "Chiffré" : "Non chiffré";
+		document.getElementById("envCacheType").textContent = data.cache.backend || (data.cache.useRedis ? "Redis" : "SQLite");
 		document.getElementById("envNodeVer").textContent = data.system.nodeVersion;
 		document.getElementById("envGeminiModel").textContent = data.environment.geminiModel || "gemini-2.5-flash-lite";
 
+		const lu = document.getElementById("lastUpdate");
+		if (lu) lu.textContent = `Mis à jour à ${new Date().toLocaleTimeString("fr-FR")}`;
 	} catch (err) {
 		console.error("Error loading summary:", err);
 	}
@@ -280,23 +274,43 @@ async function loadMetrics() {
 		const tbody = document.getElementById("recentRequestsTableBody");
 		if (!tbody) return;
 
-		if (!data.traffic.recentRequests || data.traffic.recentRequests.length === 0) {
-			tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">Aucune requête enregistrée pour l'instant</td></tr>`;
+		const wrap = document.getElementById("latencyWrap");
+		const chart = document.getElementById("latencyChart");
+		const reqs = data.traffic.recentRequests || [];
+
+		if (reqs.length === 0) {
+			tbody.innerHTML = `<tr><td colspan="5" class="empty">Aucune requête enregistrée pour l’instant.</td></tr>`;
+			if (wrap) wrap.style.display = "none";
 			return;
 		}
 
-		tbody.innerHTML = data.traffic.recentRequests
+		if (wrap && chart) {
+			const ordered = reqs.slice(0, 60).reverse();
+			const max = Math.max(1, ...ordered.map((r) => Number(r.durationMs) || 0));
+			chart.innerHTML = ordered
+				.map((r) => {
+					const h = Math.max(6, Math.round(((Number(r.durationMs) || 0) / max) * 100));
+					const cls = r.status >= 500 ? "w5" : r.status >= 400 ? "w4" : "";
+					return `<i class="${cls}" style="height:${h}%" title="${escapeHtml(String(r.method))} ${escapeHtml(String(r.path))} · ${Number(r.durationMs) || 0} ms"></i>`;
+				})
+				.join("");
+			document.getElementById("latencyMax").textContent = `max ${max} ms`;
+			wrap.style.display = "block";
+		}
+
+		tbody.innerHTML = reqs
 			.map((req) => {
-				const date = new Date(req.timestamp).toLocaleTimeString();
+				const date = new Date(req.timestamp).toLocaleTimeString("fr-FR");
 				const statusClass = `badge-${Math.floor(req.status / 100)}xx`;
+				const path = escapeHtml(String(req.path));
 
 				return `
 					<tr>
-						<td style="color: var(--text-muted); font-size: 12px;">${date}</td>
-						<td><span class="badge badge-method">${req.method}</span></td>
-						<td style="font-family: monospace; max-width: 380px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${req.path}">${req.path}</td>
-						<td><span class="badge ${statusClass}">${req.status}</span></td>
-						<td style="font-weight: 600;">${req.durationMs} ms</td>
+						<td class="time">${date}</td>
+						<td><span class="badge badge-method">${escapeHtml(String(req.method))}</span></td>
+						<td class="path" title="${path}">${path}</td>
+						<td><span class="badge ${statusClass}">${Number(req.status) || 0}</span></td>
+						<td class="dur">${Number(req.durationMs) || 0} ms</td>
 					</tr>
 				`;
 			})
@@ -317,19 +331,14 @@ async function loadCacheDetails() {
 		document.getElementById("cacheDetailSets").textContent = data.sets;
 		document.getElementById("cacheDetailRatio").textContent = data.hitRatio;
 		document.getElementById("cacheDetailSize").textContent = `${data.localSize} / ${data.maxLocalSize}`;
-		document.getElementById("cacheDetailBackend").textContent = data.backend || (data.useRedis ? "Redis" : "SQLite (Base SQL)");
+		document.getElementById("cacheDetailBackend").textContent = data.backend || (data.useRedis ? "Redis" : "SQLite");
 
 		const keysContainer = document.getElementById("cacheRecentKeys");
 		if (keysContainer) {
 			if (!data.recentKeys || data.recentKeys.length === 0) {
-				keysContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 13px;">Aucune clé en cache actuellement.</div>`;
+				keysContainer.innerHTML = `<div class="empty">Aucune clé en cache pour le moment.</div>`;
 			} else {
-				keysContainer.innerHTML = data.recentKeys
-					.map(
-						(k) =>
-							`<div style="background: var(--bg-card); padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 12px; margin-bottom: 6px; word-break: break-all;">${k}</div>`
-					)
-					.join("");
+				keysContainer.innerHTML = data.recentKeys.map((k) => `<div class="key-chip">${escapeHtml(String(k))}</div>`).join("");
 			}
 		}
 	} catch (err) {
@@ -350,20 +359,20 @@ async function loadLogs() {
 		if (!terminal) return;
 
 		if (!data.entries || data.entries.length === 0) {
-			terminal.innerHTML = `<div style="color: #64748b; padding: 20px; text-align: center;">Aucune entrée de journal trouvée (${data.message || "vide"}).</div>`;
+			terminal.innerHTML = `<div class="empty">Aucune entrée dans ce journal${data.message ? ` (${escapeHtml(String(data.message))})` : ""}.</div>`;
 			return;
 		}
 
 		terminal.innerHTML = data.entries
 			.map((entry) => {
-				const time = entry.timestamp ? new Date(entry.timestamp).toLocaleTimeString() : "";
+				const time = entry.timestamp ? new Date(entry.timestamp).toLocaleTimeString("fr-FR") : "";
 				const lvl = entry.level || "INFO";
-				const dataStr = entry.data ? `<span style="color: #94a3b8;"> ${JSON.stringify(entry.data)}</span>` : "";
+				const dataStr = entry.data ? `<span class="log-data"> ${escapeHtml(JSON.stringify(entry.data))}</span>` : "";
 
 				return `
 					<div class="log-entry">
 						<span class="log-time">[${time}]</span>
-						<span class="log-lvl-${lvl}">${lvl}</span>
+						<span class="log-lvl-${escapeHtml(String(lvl))}">${escapeHtml(String(lvl))}</span>
 						<span>${escapeHtml(entry.message || "")}</span>
 						${dataStr}
 					</div>
@@ -391,7 +400,7 @@ async function loadHealth() {
 				const dotClass = isOnline ? "dot-green" : isDegraded ? "dot-yellow" : "dot-red";
 				const statusText = isOnline
 					? provider.latencyMs
-						? `En ligne (${provider.latencyMs} ms)`
+						? `En ligne · ${provider.latencyMs} ms`
 						: "Opérationnel"
 					: isDegraded
 					? "Dégradé"
@@ -400,8 +409,8 @@ async function loadHealth() {
 				return `
 					<div class="provider-card">
 						<div>
-							<div class="provider-name">${provider.name}</div>
-							<div style="font-size: 11px; color: var(--text-muted);">${key.toUpperCase()}</div>
+							<div class="provider-name">${escapeHtml(String(provider.name))}</div>
+							<div class="provider-key">${escapeHtml(key.toUpperCase())}</div>
 						</div>
 						<div class="provider-status">
 							<span class="dot-status ${dotClass}"></span>
@@ -427,9 +436,7 @@ function showToast(message, type = "success") {
 
 	const toast = document.createElement("div");
 	toast.className = "toast";
-	if (type === "error") {
-		toast.style.borderLeftColor = "#ef4444";
-	}
+	if (type === "error") toast.classList.add("error");
 	toast.textContent = message;
 
 	container.appendChild(toast);
@@ -440,5 +447,10 @@ function showToast(message, type = "success") {
 
 function escapeHtml(str) {
 	if (typeof str !== "string") return str;
-	return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+// Icône du sprite défini dans index.html
+function icon(name) {
+	return `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 }
